@@ -14,8 +14,7 @@ function App() {
 
   return (
   <>
-    <NavBar />;
-      <div>
+    <NavBar/>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
           <Route path='/consultOther' element={<ConsultOthers/>}></Route>
@@ -24,9 +23,7 @@ function App() {
           <Route path='/more' element={<More/>}></Route>
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/tryFree' element={<TryFree/>}></Route>
-
         </Routes>
-      </div>
   </>
   )
 }
