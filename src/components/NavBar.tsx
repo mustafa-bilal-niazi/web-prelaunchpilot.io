@@ -21,7 +21,7 @@ return (
     <nav className="nav">
         <div className='navContainer'>
             <Link to='/' className='site-name'>
-                <img src={logoimage} alt='Pre Launch Pilot Logo' className='logo' />
+                <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo' />
             </Link>
             <ul style={{listStyle: 'none'}}>
                 <CustomLink to='/startBusiness' className=''>Starting a Business</CustomLink>

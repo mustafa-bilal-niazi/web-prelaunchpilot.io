@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { HiXMark } from 'react-icons/all';
-import yourImage1 from '../assets/images/pilothero1.png';
-import yourImage2 from '../assets/images/pilothero2.png';
-import yourImage3 from '../assets/images/securitylogo.png';
 import Typed from 'typed.js';
+import Lottie from 'lottie-react';
+import animationData1 from '../assets/lottie/analysis2.json';
+import animationData2 from '../assets/lottie/grafico2.json';
+import animationData3 from '../assets/lottie/analysis.json';
 
 import { useEffect,useState } from 'react';
 
@@ -29,30 +31,35 @@ export default function Home(){
         );
       }
 
-
-
-
-    const [webKitState1,setwebKitState1]=useState('Fast Analysis & Diagnosis ( 15 mins )')
+    const [animationData, setAnimationData] = useState(animationData1);
+    const [webKitState1,setwebKitState1]=useState('Fast Analysis & Diagnosis')
+    const [webKitState1Time,setwebKitState1Time]=useState(' ( 15 mins )')
     const [webKitState2,setwebKitState2]=useState('In Step 1, You will answer basic questions about your industry, business idea, and how much progress you have made with your current plans. Enter your profit and sales goals and the time frame you hope to achieve your goals.')
     const [webKitState3,setwebKitState3]=useState('You conclude Step 1 with a preliminary diagnosis report that gives customized critical advice and feedback along with a conditional success probability score based on your answers measured against data points from thousands of similar businesses in your selected industry.')
     const [webKitState4,setwebKitState4]=useState('Start My Fast Analysis Now')
 
     function handleClick1(){
         setwebKitState2('In Step 1, You will answer basic questions about your industry, business idea, and how much progress you have made with your current plans. Enter your profit and sales goals and the time frame you hope to achieve your goals.')
-        setwebKitState1('Fast Analysis & Diagnosis ( 15 mins )')
+        setAnimationData(animationData1)
+        setwebKitState1('Fast Analysis & Diagnosis')
+        setwebKitState1Time(' ( 15 mins )')
         setwebKitState3('You conclude Step 1 with a preliminary diagnosis report that gives customized critical advice and feedback along with a conditional success probability score based on your answers measured against data points from thousands of similar businesses in your selected industry.')
         setwebKitState4('Start My Fast Analysis Now')
     }
 
     function handleClick2(){
         setwebKitState2('In Step 2, You will engage in a simulated business launch to diagnose your current plans performance by applying hundreds of real world scenarios to help determine how well you differentiate your offer and capture value. The simulation will also find and conduct proof of concept testing using real people to give unbiased feedback, and surface potential new market segments to help strengthen your go to market plans under current market conditions.')
-        setwebKitState1('Performance Simulation ( 2 hours )')
+        setAnimationData(animationData2)
+        setwebKitState1('Performance Simulation')
+        setwebKitState1Time(' ( 2 hours )')
         setwebKitState3('')
         setwebKitState4('Start My Performance Simulation')
-
     }
+
     function handleClick3(){
         setwebKitState1('Report')
+        setAnimationData(animationData3)
+        setwebKitState1Time('')
         setwebKitState2('In Step 3, We will provide you with a case study report that details the results of your simulated launch measured against the most common industry-specific reasons for business failures. Your report will also include a grade based on your performance and advice on how to improve your new business performance results. ')
         setwebKitState3('')
         setwebKitState4('Start My Simulation')
@@ -87,7 +94,6 @@ export default function Home(){
                     </svg>               
                 </div>
             </div>
-            
 
             <div 
                 style={{
@@ -100,9 +106,9 @@ export default function Home(){
                     position: 'relative',
                     width: '100%',
                     flexWrap: 'wrap',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                     }}>
-                    <img width='75%' height='auto' style={{verticalAlign: 'middle', display: 'inline-block', alignSelf: 'center'}} src={yourImage2}/>
+                    <img width='75%' height='auto' style={{verticalAlign: 'middle', display: 'inline-block', alignSelf: 'center'}} src="/src/assets/images/pilothero2.png"/>
                 </div>
                 <div className='textContainer'>
                     <div className='l12'>
@@ -124,27 +130,34 @@ export default function Home(){
                     <div className='webKitContainer'>
                         <div style={{display: 'flex'}}>
                             <div className='webKitOptions'>
-                                <ul>
-                                    <button className="stepbtn" onClick={() => handleClick1()}>
+                                <ul className='stepsUL'>
+                                    <button className={`stepbtn ${webKitState1 === 'Fast Analysis & Diagnosis' ? 'selected' : ''}`} onClick={() => handleClick1()}>
                                         <span>Step 1</span>
                                     </button>
-                                    <button className="stepbtn" onClick={() => handleClick2()}>
+                                    <button className={`stepbtn ${webKitState1 === 'Performance Simulation' ? 'selected' : ''}`} onClick={() => handleClick2()}>
                                         <span>Step 2</span>
                                     </button>
-                                    <button className="stepbtn" onClick={() => handleClick3()}>
+                                    <button className={`stepbtn ${webKitState1 === 'Report' ? 'selected' : ''}`} onClick={() => handleClick3()}>
                                         <span>Step 3</span>
                                     </button>
                                 </ul>
                             </div>
-                            <div className='webKitOptionsTextContainer'>
-                                
-                                <h2>
-                                    {webKitState1}
-                                </h2>
-                                <p>
+                            <div className='webKitOptionTextContainer'>
+                                <div style={{width: 150}}>
+                                    <Lottie animationData={animationData}  loop={true} />
+                                </div>
+                                <div>
+                                    <div style={{fontFamily: 'Montserrat,Sans-serif',fontSize: 36, color: '#146c94', fontWeight: 600, marginTop: 30}}>
+                                        {webKitState1}
+                                    </div>
+                                    <div  style={{fontFamily: 'Questrial,sans-serif',fontSize: 16, color: '#146c94', fontWeight: 500}}>
+                                        {webKitState1Time}
+                                    </div>
+                                </div>
+                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black'}}>
                                     {webKitState2}
                                 </p>
-                                <p>
+                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black',fontWeight: 600,fontStyle: 'italic'}}>
                                     {webKitState3}
                                 </p>
                                 <button className='l4' type='button'>{webKitState4}</button>
@@ -173,19 +186,31 @@ export default function Home(){
                             </h1>
                         </div>
                         <div className='secretText'>
-                            <ul>
-                                <li style={{display: 'flex', paddingBottom: 15}}>
-                                    <HiXMark color="#146c94" size={50} />
-                                    <span>We never ask for any of your proprietary information or trade secrets.</span>
-                                </li>
-                                <li style={{display: 'flex', paddingBottom: 15}}>
-                                    <HiXMark color="#146c94" size={50} />
-                                    <span>We never share your results or your information. You own your data.</span>
-                                </li>
-                                <li style={{display: 'flex', paddingBottom: 15}}>
-                                    <HiXMark color="#146c94" size={50} />
-                                    <span>We never give up on your goals! You can pause - leave to tweak your plans - and log back into your simulation anytime later!</span>
-                                </li>
+                            <ul style={{padding: 0,margin: 0}}>
+                                <div style={{display: 'flex', paddingBottom: 15}}>
+                                    <div style={{width: '20%'}}>
+                                        <HiXMark color="#146c94" size={40} style={{marginTop: 10,marginRight: 10}} />
+                                    </div>
+                                    <li style={{listStyle: 'none',width: '100%'}}>
+                                        <span style={{color: '#555'}}>We never ask for any of your proprietary information or trade secrets.</span>
+                                    </li>
+                                </div>
+                                <div style={{display: 'flex', paddingBottom: 15}}>
+                                     <div style={{width: '20%'}}>
+                                        <HiXMark color="#146c94" size={40} style={{marginTop: 10,marginRight: 10}} />
+                                    </div>
+                                    <li style={{listStyle: 'none',width: '100%'}}>
+                                        <span style={{color: '#555'}}>We never share your results or your information. You own your data.</span>
+                                    </li>
+                                </div>
+                                <div style={{display: 'flex', paddingBottom: 15}}>
+                                    <div style={{width: '20%'}}>
+                                        <HiXMark color="#146c94" size={40} style={{marginTop: 10,marginRight: 10}} />
+                                    </div>                                    
+                                    <li style={{listStyle: 'none',width: '100%'}}>
+                                        <span style={{color: '#555'}}>We never give up on your goals! You can pause - leave to tweak your plans - and log back into your simulation anytime later!</span>
+                                    </li>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -196,7 +221,7 @@ export default function Home(){
                         flexWrap: 'wrap',
                         justifyContent: 'center'
                     }}>
-                        <img width='75%' height='auto' style={{verticalAlign: 'middle', display: 'inline-block', alignSelf: 'center'}} src={yourImage3}/>
+                        <img width='75%' height='auto' style={{verticalAlign: 'middle', display: 'inline-block', alignSelf: 'center'}} src="/src/assets/images/securitylogo.png"></img>
                     </div>
                 </div>
                 <div className='svgelement-container'>
@@ -216,30 +241,36 @@ export default function Home(){
                 </div>
                 <div className='containerPricingPlans'>
                     <div className='plancontainer'>
-                        <h1>
-                            Assessment lite
+                        <p style={{position: 'absolute', backgroundColor: '#19A7CE', color: 'white', paddingTop: 15,paddingBottom: 15,paddingLeft: 25,paddingRight: 25, borderRadius: 4,top: -40,alignSelf:'center'}}>
+                            <span style={{textAlign: 'center', fontFamily: 'Questrial, sans-serif', fontWeight: 500,fontSize: 15}}>
+                                Great Starting Point
+                            </span>
+                        </p>
+                        <h1 style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 800,}}>
+                            Assessment Lite
                         </h1>
-                        <h2>
-                            $0
+                        <h2 style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',}}>
+                            <span >$</span>
+                            <span style={{fontSize: 100,fontWeight: 600}}>0</span>
                         </h2>
-                        <div>
+                        <div style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 500,}}>
                             Average finish time: 10 minutes
                         </div>
-                        <div>
+                        <div style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',fontWeight: 400,marginTop: 60}}>
                             valid for one week
                         </div>
-                        <div>
-                            <button className='l4' type='button'>Start My Simulation Now</button>
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                            <button className='l4' type='button' style={{fontSize: 14,padding: 30,paddingTop: 15,paddingBottom:15}}>Start My Simulation Now</button>
                         </div>
                         <div>
-                            <h1>Lite:</h1>
+                            <p style={{fontFamily: 'Questrial, sans-serif',marginTop: 60,fontSize: 20,fontWeight: 600,}}>Lite:</p>
                             <ul className='ulforpricingtext'>
                                 
                                 <li>
-                                    <span>Go To Market Simulation</span>
+                                   Go To Market Simulation
                                 </li>
                                 <li>
-                                    <span>3 Pages of High Level Results, Advice, and Market Data</span>
+                                    3 Pages of High Level Results, Advice, and Market Data
                                 </li>
 
                             </ul>
@@ -247,28 +278,29 @@ export default function Home(){
                         </div>
                     </div>
                     <div className='plancontainer'>
-                        <h1>
+                        <h1 style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 800,}}>
                             Basic Simulation
                         </h1>
-                        <h2>
-                            $0
+                        <h2 style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',}}>
+                            <span >$</span>
+                            <span style={{fontSize: 100,fontWeight: 600}}>0</span>
                         </h2>
-                        <div>
+                        <div style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 500,}}>
                             Average finish time: 30 minutes
                         </div>
-                        <div>
+                        <div style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',fontWeight: 400,marginTop: 60}}>
                             valid for one week
                         </div>
-                        <div>
-                            <button className='l4' type='button'>Start My Simulation Now</button>
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                            <button className='l4' type='button'  style={{fontSize: 14,padding: 30,paddingTop: 15,paddingBottom:15}}>Start My Simulation Now</button>
                         </div>
                         <div>
+                        <p style={{fontFamily: 'Questrial, sans-serif',marginTop: 60,fontSize: 20,fontWeight: 600,}}>Phase 1:</p>
                             <ul className='ulforpricingtext'>
-                                <h1>Phase 1:</h1>
-                                <li className='smallListText'>
+                                <li>
                                     Basic Go To Market Simulation
                                 </li>
-                                <li >
+                                <li>
                                     6 Pages of Deep Dive Results, Advice, and Market Data
                                 </li>
                                 <li>
@@ -291,70 +323,72 @@ export default function Home(){
                         </div>
                     </div>
                     <div className='plancontainer'>
-                        <h1>
+                        <h1 style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 800,}}>
                             Full Simulation
                         </h1>
-                        <h2>
-                            $0
+                        <h2 style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',}}>
+                            <span >$</span>
+                            <span style={{fontSize: 100,fontWeight: 600}}>0</span>
                         </h2>
-                        <div>
+                        <div style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 500,}}>
                             Average finish time: 30 minutes
                         </div>
-                        <div>
+                        <div style={{textAlign: 'center',fontFamily: 'Questrial, sans-serif',fontWeight: 400,marginTop: 60}}>
                             valid for one week
                         </div>
-                        <div>
-                            <button className='l4' type='button'>Start My Simulation Now</button>
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                            <button className='l4' type='button'  style={{fontSize: 14,padding: 30,paddingTop: 15,paddingBottom:15}}>Start My Simulation Now</button>
                         </div>
                         <div>
+                        <p style={{fontFamily: 'Questrial, sans-serif',marginTop: 60,fontSize: 20,fontWeight: 600,}}>Phase 1:</p>
+
                             <ul className='ulforpricingtext'>
-                                <h1>Phase 1:</h1>
                                 <li>
-                                    <span>Full Go To Market Simulation</span>
+                                    Full Go To Market Simulation
                                 </li>
                                 <li>
-                                    <span>6 Pages of Deep Dive Results, Advice, and Market Data</span>
+                                    6 Pages of Deep Dive Results, Advice, and Market Data
                                 </li>
 
                             </ul>
+                            <p style={{fontFamily: 'Questrial, sans-serif',fontSize: 20,fontWeight: 600,}}>Phase 2:</p>
                             <ul className='ulforpricingtext'>
-                                <h1>Phase 2:</h1>
                                 <li>
-                                    <span>1 Week Proof of Concept Test</span>
+                                    1 Week Proof of Concept Test
                                 </li>
                                 <li>
-                                    <span>120 Person Feedback Capture</span>
+                                    120 Person Feedback Capture
                                 </li>
                                 <li>
-                                    <span>In Depth Customer Acquisition Cost Analysis</span>
+                                    In Depth Customer Acquisition Cost Analysis
                                 </li>
                                 <li>
-                                    <span>In Depth Features Improvement Analysis</span>
+                                    In Depth Features Improvement Analysis
                                 </li>
                                 <li>
-                                    <span>4 Hours of Expert Business Consultation By Phone</span>
+                                    4 Hours of Expert Business Consultation By Phone
                                 </li>
 
                             </ul>
+                            <p style={{fontFamily: 'Questrial, sans-serif',fontSize: 20,fontWeight: 600,}}>Phase 3:</p>
                             <ul className='ulforpricingtext'>
-                                <h1>Phase 3:</h1>
                                 <li>
-                                    <span>Profit and Loss Projections</span>
+                                    Profit and Loss Projections
                                 </li>
                                 <li>
-                                    <span>5 Year Estimated Income Statement</span>
+                                    5 Year Estimated Income Statement
                                 </li>
                                 <li>
-                                    <span>Full Encompassing Case Study - Lessons Learned & Insights</span>
+                                    Full Encompassing Case Study - Lessons Learned & Insights
                                 </li>
                                 <li>
-                                    <span>Porter's Five Forces Model - Specific to Your Industry</span>
+                                    Porter's Five Forces Model - Specific to Your Industry
                                 </li>
                                 <li>
-                                    <span>Advise on How To Raise Capital</span>
+                                    Advise on How To Raise Capital
                                 </li>
                                 <li>
-                                    <span>Cost of Good Sold and Cost Control Analysis</span>
+                                    Cost of Good Sold and Cost Control Analysis
                                 </li>
 
                             </ul>
@@ -364,6 +398,41 @@ export default function Home(){
                 </div>
             </div>
 
+            <div className='botNavMainContainer'>
+                <div style={{padding: 10,display: 'flex',width: '33.333%',alignContent: 'flex-start', flexWrap: 'wrap'}}>
+                    <img src="/src/assets/images/logo_bottomnav_transparent_background.png" style= {{width: '70%',}}/>
+                </div>
+
+                <div style={{padding: 10,display: 'flex',width: '33.333%',alignContent: 'flex-start', flexWrap: 'wrap'}}>
+                    <ul className='bottomNavul'>
+                        <li>
+                            <Link to='/' style={{color: '#555', textDecoration: 'none'}}>Features</Link>
+                        </li>
+                        <li>
+                            <Link to='/' style={{color: '#555', textDecoration: 'none'}}>Pricing</Link>
+                        </li>
+                        <li>
+                            <Link to='/' style={{color: '#555', textDecoration: 'none'}}>Support Forum</Link>
+                        </li>
+                        <li>
+                            <Link to='/' style={{color: '#555', textDecoration: 'none'}}>Contact</Link>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style={{padding: 10,display: 'flex',width: '33.333%',alignContent: 'flex-start', flexWrap: 'wrap'}}>
+                    <ul className='bottomNavul'>
+                        <li>For Frequently Asked Questions Visit our Support Forum</li>
+                        <li>For Direct Support:</li>
+                        <li>customersupport@prelaunchpilot.com</li>
+                        <li>678-693-2254</li>
+                    </ul>
+                    
+                </div>
+            </div>
+            <div className='bottomBar'>
+                <p style={{fontSize: 16,fontFamily: 'sans-serif',color: '#555'}}>© 2023 Prelaunch Pilot Inc.</p>
+            </div>
         </>
     )
 }
