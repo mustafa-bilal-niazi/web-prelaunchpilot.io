@@ -18,7 +18,7 @@ export default function StartBusiness(){
                     <div className='l1diff' style={{fontSize: 36,fontWeight: 600,color: '#333'}}>Be The First To Try All Simulations Free</div>
                     <div className='l1diff'style={{fontSize: 22,fontWeight: 400,color: '#333',paddingTop: 30}}>We are currently accepting applications to test our AI models and provide feedback.</div>
                     <div className='l1diff'style={{fontSize: 22,fontWeight: 400,color: '#333',paddingTop: 30}}>If you are planning to launch, invest in or improve the sales performance of an existing product or service, we want to help you be successful!</div>
-                    <div className='l1diff' style={{fontSize: 18,paddingTop: 30}}>Just fill in the form to sign up and you will be contacted by our team members.Just fill in the form to sign up and you will be contacted by our team members.</div>
+                    <div className='l1diff' style={{fontSize: 18,fontWeight: 100,paddingTop: 30}}>Just fill in the form to sign up and you will be contacted by our team members.Just fill in the form to sign up and you will be contacted by our team members.</div>
                 </div>
                 <div style={{width: '40%', paddingLeft: 40,marginTop: '2%'}}>
                     <SignupForm/>

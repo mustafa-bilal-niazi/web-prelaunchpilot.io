@@ -35,7 +35,7 @@ const Form: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} style={{ borderRadius: 20, boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', padding: 20 , right: 0,backgroundColor: 'white',height: 500}}>
-        <div className='l1diff' style={{fontSize: 36,fontWeight: 400,padding: 30,alignItems: 'center', justifyContent: 'center',display: 'flex'}}>
+        <div className='l1diff' style={{fontSize: 36,fontWeight: 400,padding: 30,alignItems: 'center', justifyContent: 'center',display: 'flex',color: '#333'}}>
             Join The Beta Test Program Now
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15 }}>

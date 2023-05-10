@@ -9,22 +9,21 @@ import More from "./pages/More";
 import TryFree from "./pages/TryFree";
 import Login from "./pages/Login";
 
-
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
-
+// same route elemets for now
   return (
   <>
     <NavBar/>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
-          <Route path='/consultOther' element={<ConsultOthers/>}></Route>
-          <Route path='/impPerformance' element={<ImpPerformance/>}></Route>
+          <Route path='/consultOther' element={<StartBusiness/>}></Route>
+          <Route path='/impPerformance' element={<StartBusiness/>}></Route>
           <Route path='/startBusiness' element={<StartBusiness/>}></Route>
-          <Route path='/more' element={<More/>}></Route>
-          <Route path='/login' element={<Login/>}></Route>
-          <Route path='/tryFree' element={<TryFree/>}></Route>
+          <Route path='/more' element={<StartBusiness/>}></Route>
+          <Route path='/login' element={<StartBusiness/>}></Route>
+          <Route path='/tryFree' element={<StartBusiness/>}></Route>
         </Routes>
       <BottomNav/>
   </>
