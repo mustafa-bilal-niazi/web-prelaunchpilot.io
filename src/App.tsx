@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NavBar from "./components/NavBar";
+import BottomNav from "./components/BottomNavBar";
 import ConsultOthers from "./pages/ConsultOther";
 import ImpPerformance from "./pages/ImpPerformance";
 import StartBusiness from "./pages/StartBusiness";
@@ -25,6 +26,7 @@ function App() {
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/tryFree' element={<TryFree/>}></Route>
         </Routes>
+      <BottomNav/>
   </>
   )
 }
