@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiXMark } from 'react-icons/all';
 import Typed from 'typed.js';
@@ -6,8 +7,28 @@ import Lottie from 'lottie-react';
 import animationData1 from '../assets/lottie/analysis2.json';
 import animationData2 from '../assets/lottie/grafico2.json';
 import animationData3 from '../assets/lottie/analysis.json';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {EffectCoverflow,Pagination,Navigation,Autoplay} from 'swiper';
 
-import { useEffect,useState } from 'react';
+
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/virtual';
+import 'swiper/css/scrollbar';
+import 'swiper/css/autoplay';
+
+import slide_image1 from '../assets/slideImages/abc-gold-media-Custom.png'
+import slide_image2 from '../assets/slideImages/cbs-logo-png-Custom.png'
+import slide_image3 from '../assets/slideImages/cdnlogo.com_nbc-Custom.png'
+import slide_image4 from '../assets/slideImages/cnn-png-Custom.png'
+import slide_image5 from '../assets/slideImages/forbes-logo-png_-Custom.png'
+import slide_image6 from '../assets/slideImages/fox-logo-png-Custom.png'
+import slide_image7 from '../assets/slideImages/medtronic-logo-png-Custom.png'
+import slide_image8 from '../assets/slideImages/mit-Custom.png'
+import slide_image9 from '../assets/slideImages/msn-logo-Custom.png'
+
 
 export default function Home(){
 
@@ -32,6 +53,7 @@ export default function Home(){
       }
 
     const [animationData, setAnimationData] = useState(animationData1);
+
     const [webKitState1,setwebKitState1]=useState('Fast Analysis & Diagnosis')
     const [webKitState1Time,setwebKitState1Time]=useState(' ( 15 mins )')
     const [webKitState2,setwebKitState2]=useState('In Step 1, You will answer basic questions about your industry, business idea, and how much progress you have made with your current plans. Enter your profit and sales goals and the time frame you hope to achieve your goals.')
@@ -94,7 +116,48 @@ export default function Home(){
                     </svg>               
                 </div>
             </div>
-
+            <div style={{marginTop: 100,marginBottom: 100,width: '100%', backgroundColor: 'white',paddingLeft: '10%',paddingRight: '10%'}}>
+                <Swiper
+                    effect={'fade'}
+                    spaceBetween={0}
+                    loop={true}
+                    autoplay={{
+                        delay: 500,
+                        disableOnInteraction: false
+                      }}
+                    centeredSlides={true}
+                    slidesPerView={4}
+                    // coverflowEffect={{
+                    //   rotate: 0,
+                    //   stretch: 1,
+                    //   depth: 100,
+                    //   modifier: 2.5,
+                    // }}
+                    modules={[Autoplay, Pagination, Navigation]}
+                    className="swiper_container"
+                >
+                    <SwiperSlide >
+                        <img src={slide_image1} style={{filter: "grayscale(100%)"}} ></img>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <img src={slide_image2} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image3} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image4} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image5} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image6} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image7} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image8} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide><SwiperSlide>
+                        <img src={slide_image9} style={{filter: "grayscale(100%)"}}></img>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
             <div 
                 style={{
                 display: 'flex',
