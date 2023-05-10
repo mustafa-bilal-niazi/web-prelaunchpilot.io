@@ -19,19 +19,18 @@ const Form: React.FC = () => {
     number: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
-  
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
   };
-  
 
   return (
     <form onSubmit={handleSubmit} style={{ borderRadius: 20, boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', padding: 20 , right: 0,backgroundColor: 'white',height: 500}}>
@@ -46,7 +45,7 @@ const Form: React.FC = () => {
         <input type="tel" name="number" placeholder="Contact Number" value={formData.number} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', borderWidth: 0,fontFamily: "Questrial,Sans-serif" ,fontSize: 14}} />
         <input type="text" name="company" placeholder="Company Name" value={formData.company} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%' ,boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
         <input type="text" name="industry" placeholder="Industry Type" value={formData.industry} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
-        <button className='button' type="submit" style={{ backgroundColor: '#0077FF', color: 'white', borderRadius: 15, padding: 10, width: '30%',borderWidth: 0, }}>Sign Up</button>
+        <button type="submit" style={{ backgroundColor: '#0077FF', color: 'white', borderRadius: 15, padding: 10, width: '30%',borderWidth: 0,cursor: 'pointer'  }}>Sign Up</button>
     </form>
   );
 };
