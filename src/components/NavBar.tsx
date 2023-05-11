@@ -2,7 +2,6 @@ import {Link, useMatch, useResolvedPath} from 'react-router-dom'
 import logoimage from '../assets/images/pilotlogo.png';
 import loginlogo from '../assets/images/loginlogo.png';
 
-
 export default function NavBar(){
 
     function CustomLink ({to, children, className, ...props} : {to: string, children: string, className: string}) {

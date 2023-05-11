@@ -1,35 +1,49 @@
 import React, { useState } from 'react';
 
-interface FormData {
+interface InputValues {
   firstName: string;
-  lastName?: string;
+  [key: string]: string;
+  lastName: string;
   email: string;
+  number: string;
   company: string;
   industry: string;
-  number: string;
+
 }
 
-const Form: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    company: '',
-    industry: '',
-    number: '',
-  });
+function Form(){
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+const [inputs, setInputs] = useState<InputValues>({ firstName: '', lastName: '', email: '', number: '', company: '', industry: ''});
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
+    if(inputs.email == '' || inputs.firstName == '' || inputs.company == '' || inputs.industry == '' || inputs.number == ''){
+      e.preventDefault();
+      alert('Missing fields')
+    }
+    else {
+      if(validateEmail(inputs.email)){
+        e.preventDefault();
+        alert(inputs.firstName + ' signed up as: ' + inputs.email  );
+        setInputs({ firstName: '', lastName: '', email: '', number: '', company: '', industry: ''})
+      }
+      else {
+        e.preventDefault();
+        alert('invalid email address')
+      }
+    }
+    
   };
 
   return (
@@ -38,13 +52,13 @@ const Form: React.FC = () => {
             Join The Beta Test Program Now
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15 }}>
-            <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginRight: 10, width: '48%' ,boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
-            <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} style={{ borderRadius: 10, padding: 15, width: '48%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
+            <input type="text" name="firstName" placeholder="First Name" value={inputs.firstName || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginRight: 10, width: '48%' ,boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
+            <input type="text" name="lastName" placeholder="Last Name" value={inputs.lastName || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, width: '48%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
         </div>
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 10, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
-        <input type="tel" name="number" placeholder="Contact Number" value={formData.number} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', borderWidth: 0,fontFamily: "Questrial,Sans-serif" ,fontSize: 14}} />
-        <input type="text" name="company" placeholder="Company Name" value={formData.company} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%' ,boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
-        <input type="text" name="industry" placeholder="Industry Type" value={formData.industry} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
+        <input type="email" name="email" placeholder="Email" value={inputs.email || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 10, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
+        <input type="tel" name="number" placeholder="Contact Number" value={inputs.number || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', borderWidth: 0,fontFamily: "Questrial,Sans-serif" ,fontSize: 14}} />
+        <input type="text" name="company" placeholder="Company Name" value={inputs.company || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%' ,boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
+        <input type="text" name="industry" placeholder="Industry Type" value={inputs.industry || ""} onChange={handleChange} style={{ borderRadius: 10, padding: 15, marginBottom: 15, width: '100%',boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',borderWidth: 0,fontFamily: "Questrial,Sans-serif" }} />
         <button type="submit" style={{ backgroundColor: '#0077FF', color: 'white', borderRadius: 15, padding: 10, width: '30%',borderWidth: 0,cursor: 'pointer'  }}>Sign Up</button>
     </form>
   );
