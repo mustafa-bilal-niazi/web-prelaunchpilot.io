@@ -26,6 +26,7 @@ return (
                 <CustomLink to='/startBusiness' className=''>Starting a Business</CustomLink>
                 <CustomLink to='/impPerformance' className='' >Improve Performance</CustomLink>
                 <CustomLink to='/consultOther' className='' >Consulting for Others</CustomLink>
+                <CustomLink to='/bot' className='' >ChatBot</CustomLink>
                 <CustomLink to='/more' className='' >More</CustomLink>
             </ul>
         </div>

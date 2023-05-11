@@ -19,8 +19,77 @@ body {
     align-content: flex-start;
 }
 
+.chatscreen {
+    display: flex;
+    height:600px;
+    justify-content: center;
+    align-items: center;
+  }
+
 .containerMain {
     display: flex;
+}
+
+.chattext-container {
+    padding-top: 1%;
+    padding-left: 3%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(to right,white, rgba(114, 239, 231, 0.85));
+
+}
+
+.chatinput-maincontainer {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to right, rgba(114, 239, 231, 0.85), rgba(40, 165, 223, 0.785));
+}
+
+.chatinput-container {
+    margin-top: 5%;
+    height: 70%;
+    width: 70%;
+    background-color: white;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border-width: 1px;
+}
+
+.chatinput {
+    padding: 10px;
+    width: 80%;
+    height: 200px;
+    font-size: 18px;
+    font-family: "Montserrat",Sans-serif;
+    font-weight: 500;border: 4px solid rgba(39, 223, 211, 0.85);
+    border-radius: 20px;
+    overflow: 'none';
+
+}
+
+.chatinput::placeholder {
+    color: gray;
+    font-size: 18px;
+    font-family: "Montserrat",Sans-serif;
+    font-weight: 500;
+  }
+
+.chatinputbtn {
+    margin-top: 20px;;
+    width: 60%;
+    padding: 10px;
+    font-size: large;
+    border: none;
+    border-radius: 10px;
+    background-color: #09536a;
+    color: white !important;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
 }
 
 .container1 {
@@ -193,6 +262,8 @@ body {
     font-weight: 600;
 }
 .l4{
+    margin-top: 20px;
+    text-decoration: none;
     font-family: "Montserrat",Sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -441,13 +512,12 @@ body {
 }
 
 .nav li.active {
-   border-radius: 5px;
-   box-shadow: 2px 2px 2px rgba(2, 48, 57, 0.728);
+    font-size: large;
+    font-weight: 600;
 }
 
 .navContainer li:hover {
-    border-bottom: 2px solid #323030;
-    padding-bottom: 5px; 
+    border-bottom: 2px solid #555;
   }
 
 .loginSection {
@@ -482,6 +552,8 @@ body {
     cursor: pointer;
   }
   
-  .btn:hover {
+
+
+.btn:hover {
     background-color: #1a597a;
-  }
+}

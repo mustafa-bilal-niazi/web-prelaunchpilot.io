@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import More from "./pages/More";
 import TryFree from "./pages/TryFree";
 import Login from "./pages/Login";
+import ChatBotAi from "./pages/ChatBotAi";
 
 import { Route, Routes } from 'react-router-dom'
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/impPerformance' element={<StartBusiness/>}></Route>
           <Route path='/startBusiness' element={<StartBusiness/>}></Route>
           <Route path='/more' element={<StartBusiness/>}></Route>
+          <Route path='/bot' element={<ChatBotAi/>}></Route>
           <Route path='/login' element={<StartBusiness/>}></Route>
           <Route path='/tryFree' element={<StartBusiness/>}></Route>
         </Routes>

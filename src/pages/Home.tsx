@@ -8,7 +8,7 @@ import animationData1 from '../assets/lottie/analysis2.json';
 import animationData2 from '../assets/lottie/grafico2.json';
 import animationData3 from '../assets/lottie/analysis.json';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {EffectCoverflow,Pagination,Navigation,Autoplay} from 'swiper';
+import {Pagination,Navigation,Autoplay} from 'swiper';
 
 
 import 'swiper/css';
@@ -106,7 +106,11 @@ export default function Home(){
                     <div className='l1 '>Save Thousands of Hours in Time and Research</div>
                     <div className='l2'>Let Predictive AI Help</div>
                     <TypingEffect/>
-                    <button className='l4' type='button'>Enter Your Business Goal</button>
+                    <div style={{marginTop: 20}}>
+                    <Link to="/bot" className='l4' style={{marginTop: 20}}>
+                        Enter Your Business Goal
+                    </Link>
+                    </div>                    
                 </div>
                 <div className='svgelement-container' style={{ position: 'absolute', bottom: 0 }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
