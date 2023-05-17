@@ -20,6 +20,7 @@ body {
 }
 
 .chatscreen {
+    background: linear-gradient(to right, rgb(136 253 246 / 57%), rgb(85 184 229 / 42%));
     display: flex;
     height:600px;
     justify-content: center;
@@ -33,18 +34,18 @@ body {
 .chattext-container {
     padding-top: 1%;
     padding-left: 3%;
-    width: 40%;
+    width: 30%;
     height: 100%;
-    background: linear-gradient(to right,white, rgba(114, 239, 231, 0.85));
+    /* background: linear-gradient(to right,white, rgba(114, 239, 231, 0.85)); */
 
 }
 
 .chatinput-maincontainer {
-    width: 60%;
+    width: 70%;
     height: 100%;
     display: flex;
     justify-content: center;
-    background: linear-gradient(to right, rgba(114, 239, 231, 0.85), rgba(40, 165, 223, 0.785));
+    /* background: linear-gradient(to right, rgba(114, 239, 231, 0.85), rgba(40, 165, 223, 0.785)); */
 }
 
 .chatinput-container {

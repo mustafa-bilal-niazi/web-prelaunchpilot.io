@@ -25,16 +25,16 @@ return (
             <ul style={{listStyle: 'none'}}>
                 <CustomLink to='/startBusiness' className=''>Starting a Business</CustomLink>
                 <CustomLink to='/impPerformance' className='' >Improve Performance</CustomLink>
-                <CustomLink to='/consultOther' className='' >Consulting for Others</CustomLink>
+                <CustomLink to='/consultOther' className='' >Consulting</CustomLink>
                 <CustomLink to='/bot' className='' >ChatBot</CustomLink>
                 <CustomLink to='/more' className='' >More</CustomLink>
             </ul>
         </div>
-        <div className='loginSection'>
+        {/* <div className='loginSection'>
             <img src={loginlogo} style={{ width: '50px', height: 'auto'}} />
             <CustomLink to='/login' className='navMarker' >Login</CustomLink>
-        </div>
-        <CustomLink to='/tryFree' className='btn'>TRY IT FREE</CustomLink>
+        </div> */}
+        <CustomLink to='/bot' className='btn'>TRY IT FREE</CustomLink>
     </nav>
 
 )
