@@ -9,7 +9,7 @@ import More from "./pages/More";
 import TryFree from "./pages/TryFree";
 import Login from "./pages/Login";
 import ChatBotAi from "./pages/ChatBotAi";
-
+import ReportPage from "./pages/ReportPage";
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -26,6 +26,8 @@ function App() {
           <Route path='/bot' element={<ChatBotAi/>}></Route>
           <Route path='/login' element={<StartBusiness/>}></Route>
           <Route path='/tryFree' element={<StartBusiness/>}></Route>
+          
+
         </Routes>
       <BottomNav/>
   </>

@@ -8,7 +8,7 @@ body {
 }
 
 .bottomBar {
-    text-align: center;
+    display: flex;
     border-style: solid;
     border-width: 1px 0px 0px 0px;
     border-color: #808080;
@@ -16,7 +16,6 @@ body {
     position: relative;
     width: 100%;
     flex-wrap: wrap;
-    align-content: flex-start;
 }
 
 .chatscreen {
@@ -36,8 +35,18 @@ body {
     padding-left: 3%;
     width: 30%;
     height: 100%;
-    /* background: linear-gradient(to right,white, rgba(114, 239, 231, 0.85)); */
 
+}
+
+.bottomNavHyperlinkText {
+    font-size: 12px;
+    font-family: "Sofia-pro",Sans-serif;
+    color: #4e89db;
+    font-weight: 500;
+}
+
+.bottomNavHyperlinkText:hover{
+    color: #1708e6;
 }
 
 .chatinput-maincontainer {
