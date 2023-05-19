@@ -5,12 +5,29 @@ import ReportPage from './ReportPage';
 import { useNavigate } from 'react-router-dom';
 import { Link,Route } from 'react-router-dom';
 import animationData from '../assets/lottie/loadingfiles.json';
+import chatbothero from '../assets/lottie/chatbothero.json';
 import Lottie from 'lottie-react';
+import { BsArrowRightCircleFill } from 'react-icons/bs';
+import html2pdf from 'html2pdf.js';
+import logoimage from '../assets/images/pilotlogo.png';
+import '../pdfStyles.css';
+
 
 
 export default function TryFree(){
 
+  function generatePDF() {
+    const element = document.querySelector('.reportGenerated');
+    html2pdf()
+      .set({ html2canvas: { scale: 4 } })
+      .from(element)
+      .save();
+  }
+  
+
     const [showReportPage, setShowReportPage] = useState(false);
+    const [userCompany,setuserCompany] = useState('ALGORYC')
+    const [userName,setuserName] = useState('mustafa bilal')
     const [userEmail,setuserEmail] = useState('mustafa@gmail.com')
     const [questionState, setQuestionState] = useState(0)
     const [answer1,setAnswer1]=useState('')
@@ -200,8 +217,10 @@ export default function TryFree(){
       }
     };
 
+//-----------------------------------------------------------------Question SET AND NEXT/BACK Button functions--------------------------------------------------------------------
+
     const questionSet = [
-      'Enter your Email Address',
+      'Enter your details',
       'Which industry does or will your business operate in?',
       `Do you know which segment of the "${answer1}" industry your business does or will operate in?`,
       'Enter your segment here',
@@ -213,7 +232,7 @@ export default function TryFree(){
       'Can you say that your product(s) or service(s) are different or better than everyone else?',
       'Describe (in a way that is easy to understand) what makes you different here:',
       `Have people offered to pay you for your ${answer4} after hearing about or seeing your  ${answer4} through an advertisement?`,
-      `Are you filling any unmet needs/wants or solving a problem for customers in your segment of the "${answer1}" industry?`,
+      `Are you filling any unmet needs/wants or solving a problem for customers in the "${answer1}" industry?`,
       'Describe (In a way that is easy to understand) what unmet need (or want) you are filling or what problem you are solving for customers here:',
       `What's the value customers will receive from your ${answer4}:`,
       "Generating Report.."
@@ -234,6 +253,7 @@ export default function TryFree(){
           if(questionState===1){
             getOverview()
             getMarketBenefits()
+            getFinalSection()
           };
           if(questionState===7){
             getMarketingMethods()
@@ -245,17 +265,16 @@ export default function TryFree(){
             }
           };
           if(questionState===14){
-            getFinalSection()
           };
           setQuestionState(questionState+1)
         }
         
         else if (questionState===2 || questionState===5  || questionState===9 || questionState===12){
           if(questionState===2){
-            if(answer2==='Yes'){
-              getMarketChallenges()
-            }
             getFailureSection()
+            if(answer2==='Yes'){
+              getMarketChallenges() 
+            }
             if(answer2==='Yes'){
               setQuestionState(questionState+1)
             }
@@ -380,10 +399,18 @@ export default function TryFree(){
 
 
     useEffect(() => {
-      if (resIntro && resOverview && failureSection) {
+      if (resIntro && resOverview) {
         setIsLoading(false);
       }
-    }, [resIntro, resOverview, failureSection]);
+    }, [resIntro, resOverview]);
+    
+    window.onload = () => {
+      const pageNumbers = document.querySelectorAll('.pageNumber');
+      for (let i = 0; i < pageNumbers.length; i++) {
+        const pageNumberElement = pageNumbers[i] as HTMLElement;
+        pageNumberElement.textContent = (i + 1).toString();
+      }
+    };
     
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -400,288 +427,442 @@ export default function TryFree(){
         <div className="chatscreen">
 
           <div className="chattext-container">
-            <h1 style={{marginTop: 10,marginBottom: 20,fontSize: 35,fontWeight: 700,fontFamily: 'Montserrat,Sans-serif'}}>Validate Your Business Idea In Seconds</h1>
+            <div style={{marginTop: 10,marginBottom: 20,fontSize: 35,fontWeight: 700,fontFamily: 'Montserrat,Sans-serif',display: 'flex'}}>
+              <div style={{width: '70%'}}>  Let Me Help You Validate Your Business Idea Instantly!</div>
+              <div style={{width: '50%'}}>
+                <Lottie animationData={chatbothero}  loop={true}/>
+              </div>
+            </div>
+            
+            <div style={{fontSize: 20,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginBottom: 20,padding: 0,textAlign: 'left',display: 'flex'}}>
+              Use PreLaunchPilot A.I. to see how your business can succeed, and what to watch out for!
+            </div>
+            <div style={{fontSize: 15,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginBottom: 5,padding: 5,textAlign: 'left'}}>            
+              <BsArrowRightCircleFill size={13} color='#1a597a'/> Your Business Overview
+            </div>
+            <div style={{fontSize: 15,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginBottom: 5,padding: 5,textAlign: 'left'}}>
+              <BsArrowRightCircleFill size={13} color='#1a597a'/> Custom Marketing Analysis
+            </div>
+            <div style={{fontSize: 15,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginBottom: 5,padding: 5,textAlign: 'left'}}>
+              <BsArrowRightCircleFill size={13} color='#1a597a'/> Carefully devised Marketing Strategies
+            </div>
+            <div style={{fontSize: 15,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginBottom: 5,padding: 5,textAlign: 'left'}}>
+              <BsArrowRightCircleFill size={13} color='#1a597a'/> Evaluation for Launch & Scale
+            </div>
+
           </div>
 
           <div className="chatinput-maincontainer">
 
             <div className="chatinput-container">
-                <div style={{fontSize: 18,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',padding: '4%',textAlign: 'center'}}>{questionSet[questionState]}</div>
-                  {questionState===0 && ( <input
-                    type="email"
-                    value={userEmail}
-                    onChange={(event) => setuserEmail(event.target.value)}
-                    style={{
-                      width: '80%',
-                      border: '1px solid black',
-                      borderRadius: '5px',
-                      padding: '10px',
-                    }}
-                  />)}
-                  {questionState===10 && ( <textarea
-                    value={answer10}
-                    onChange={(event) => setAnswer10(event.target.value)}
-                    className='chatinput'
-                    style={{    
-                      border:  '4px solid #09536a',
-                      height: '200px', 
-                      width: '80%',
-                      overflowY:  'scroll',
-                    }}
-                  />)}
-                  {questionState===13 && ( <textarea
-                    value={answer13}
-                    onChange={(event) => setAnswer13(event.target.value)}
-                    className='chatinput'
-                    style={{  
-                      border:  '4px solid #09536a',
-                      height: '200px', 
-                      width: '80%',
-                      overflowY:  'scroll',
-                    }}
-                  />)}
-                  {questionState>0 && questionState!=10 && questionState!=13 &&
-                    <div className='chatinput' id="question-container" style={{    
-                      border: questionState !== 2 && questionState !==4 && questionState!==5 && questionState!==6 && questionState!==7 && questionState!==8 && questionState!==9 && questionState!==11 && questionState!==12 && questionState!==15 ? '4px solid rgba(39, 223, 211, 0.85)' : '0px',
-                      height: questionState === 2 || questionState===4 || questionState===5 || questionState===6 || questionState===7 || questionState===8 || questionState===9 || questionState===11 || questionState===12 || questionState===15 ? 'auto' : '250px', 
-                      overflowY: questionState!==2 && questionState !== 4 && questionState!==5 && questionState!==6 && questionState!==7 && questionState!==8 && questionState!==9 && questionState!==11 && questionState!==12 && questionState!==15 ? 'scroll' : 'hidden',marginLeft: '10%', marginRight: '10%'}}>
-                      <ul className='ulforchatoptionstext'>
+              <div style={{fontSize: 18,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',padding: '4%',textAlign: 'center'}}>{questionSet[questionState]}</div>
+              {questionState===0 && ( 
+              <>
+                <p style={{fontSize: 13,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginLeft: '20%',marginBottom: 0,padding: 0,textAlign: 'left'}}>User name</p>
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(event) => setuserEmail(event.target.value)}
+                  style={{
+                    fontFamily: 'Montserrat,Sans-serif',
+                    width: '60%',
+                    border: '2px solid black',
+                    borderRadius: '5px',
+                    padding: '10px',
+                  }}
+                />
+                <p  style={{fontSize: 13,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginLeft: '20%',marginBottom: 0,padding: 0,textAlign: 'left'}}>Email address</p>
+                <input
+                  type="email"
+                  value={userEmail}
+                  onChange={(event) => setuserEmail(event.target.value)}
+                  style={{
+                    fontFamily: 'Montserrat,Sans-serif',
+                    width: '60%',
+                    border: '2px solid black',
+                    borderRadius: '5px',
+                    padding: '10px',
+                  }}
+                />
+                <p  style={{fontSize: 13,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginLeft: '20%',marginBottom: 0,padding: 0,textAlign: 'left'}}>Company name</p>
+                <input
+                  type="text"
+                  value={userCompany}
+                  onChange={(event) => setuserEmail(event.target.value)}
+                  style={{
+                    fontFamily: 'Montserrat,Sans-serif',
+                    width: '60%',
+                    border: '2px solid black',
+                    borderRadius: '5px',
+                    padding: '10px',
+                  }}
+                />
+              </>
+              )}
+              {questionState===10 && ( <textarea
+                value={answer10}
+                onChange={(event) => setAnswer10(event.target.value)}
+                className='chatinput'
+                style={{    
+                  border:  '4px solid #09536a',
+                  height: '55%', 
+                  width: '80%',
+                  overflowY:  'scroll',
+                }}
+              />)}
+              {questionState===13 && ( <textarea
+                value={answer13}
+                onChange={(event) => setAnswer13(event.target.value)}
+                className='chatinput'
+                style={{  
+                  border:  '4px solid #09536a',
+                  height: '55%', 
+                  width: '80%',
+                  overflowY:  'scroll',
+                }}
+              />)}
+              {questionState>0 && questionState!=10 && questionState!=13 &&
+              <div className='chatinput' id="question-container" style={{    
+                border: questionState !== 2 && questionState !==4 && questionState!==5 && questionState!==6 && questionState!==7 && questionState!==8 && questionState!==9 && questionState!==11 && questionState!==12 && questionState!==15 ? '4px solid #146c94' : '0px',
+                height: questionState === 2 || questionState===4 || questionState===5 || questionState===6 || questionState===7 || questionState===8 || questionState===9 || questionState===11 || questionState===12 || questionState===15 ? '55%' : '60%', 
+                overflowY: questionState!==2 && questionState !== 4 && questionState!==5 && questionState!==6 && questionState!==7 && questionState!==8 && questionState!==9 && questionState!==11 && questionState!==12 && questionState!==15 ? 'scroll' : 'hidden',marginLeft: '10%', marginRight: '10%'}}>
+                <ul className='ulforchatoptionstext'>
+                  
+                  {questionState===1 && set1.map((category, index) =>
+                    <li key={index}
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        borderColor: 'black',
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer1 === category ? 20 : 18,
+                        fontWeight: answer1 === category ? 600 : 500,
+                        backgroundColor: answer1 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer1 === category ? 'whitesmoke' : 'black'
+                      }} 
+                      onClick={() => setAnswer1(category)}>
+                        {category}  
+                    </li>
+                  )}
+                      
+                  {questionState===2 && services_list['knowSegment'].map((category, index) =>
+                    <li key={index} 
+                    style={{cursor: 'pointer',
+                      borderRadius: 5,
+                      padding: '10px 10px',
+                      textAlign: 'left',
+                      marginBottom: '5px',
+                      fontSize: answer2 === category ? 20 : 18,
+                      fontWeight: answer2 === category ? 600 : 500,
+                      backgroundColor: answer2 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                      color: answer2 === category ? 'white' : 'black'
+                    }} 
+                      
+                    onClick={() => setAnswer2(category)}>
+                        {category}
+                    </li>
+                  )}
+                  {answer2==="Yes" && questionState===3 && 
+                  // <input
+                  //   style={{borderWidth: '1px solid'}}
+                  //   type="text"
+                  //   placeholder="Search"
+                  //   value={searchTerm}
+                  //   onChange={event => setSearchTerm(event.target.value)}
+                  // /> &&
+                  services_list[answer1].map((category, index) =>                        
+                    <li key={index} 
+                        style={{cursor: 'pointer',
+                          borderRadius: 5,
+                          padding: '10px 10px',
+                          textAlign: 'left',
+                          marginBottom: '5px',
+                          fontSize: answer3 === category ? 20 : 18,
+                          fontWeight: answer3 === category ? 600 : 500,
+                          backgroundColor: answer3 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                          color: answer3 === category ? 'white' : 'black'}} 
+                          
+                        onClick={() => setAnswer3(category)}>
+                            {category}
+                      </li>
+                    )}
+                    {questionState===4 && services_list['productType'].map((category, index) =>
+                      <li key={index}
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer4 === category ? 20 : 18,
+                        fontWeight: answer4 === category ? 600 : 500,
+                        backgroundColor: answer4 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer4 === category ? 'white' : 'black'}} 
                         
-                        {questionState===1 && set1.map((category, index) =>
-                          <li key={index}
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            borderColor: 'black',
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer1 === category ? '#09536a' : 'lightblue',
-                            color: answer1 === category ? 'white' : 'black'}} 
-                          onClick={() => setAnswer1(category)}>
-                              {category}
-                              
-                          </li>
-                        )}
-                        
-                        {questionState===2 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer2 === category ? '#09536a' : 'lightblue',
-                            color: answer2 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer2(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {answer2==="Yes" && questionState===3 && 
-                        <input
-                        style={{borderWidth: '1px solid'}}
-                        type="text"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={event => setSearchTerm(event.target.value)}
-                      /> &&
-                      services_list[answer1].map((category, index) =>                        
+                      onClick={() => setAnswer4(category)}>
+                          {category}
+                          <p style={{fontSize: 13,fontWeight: 150,marginTop: 5,marginBottom:5}}>{question3examples[index]}</p>
+                      </li>
+                    )}
+                    {questionState===5 && services_list['knowSegment'].map((category, index) =>
                       <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer3 === category ? '#09536a' : 'lightblue',
-                            color: answer3 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer3(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {questionState===4 && services_list['productType'].map((category, index) =>
-                          <li key={index}
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer4 === category ? '#09536a' : 'lightblue',
-                            color: answer4 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer4(category)}>
-                              {category}
-                              <p style={{fontSize: 13,fontWeight: 150,marginTop: 5,marginBottom:5}}>{question3examples[index]}</p>
-                          </li>
-                        )}
-                        {questionState===5 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer5 === category ? '#09536a' : 'lightblue',
-                            color: answer5 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer5(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {questionState===6 && services_list['productSaleRegion'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer6 === category ? '#09536a' : 'lightblue',
-                            color: answer6 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer6(category)}>
-                              {category}
-                              <span style={{fontSize: 13,marginLeft: 6}}>{question4a[index]}</span>
-
-                          </li>
-                        )}
-                        {questionState===7 && services_list['productSaleRegion'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer7 === category ? '#09536a' : 'lightblue',
-                            color: answer7 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer7(category)}>
-                              {category}
-                              <span style={{fontSize: 13,marginLeft: 6}}>{question4a[index]}</span>
-
-                          </li>
-                        )}
-                        {questionState===8 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer8 === category ? '#09536a' : 'lightblue',
-                            color: answer8 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer8(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {questionState===9 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer9 === category ? '#09536a' : 'lightblue',
-                            color: answer9 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer9(category)}>
-                              {category}
-                          </li>
-                        )}
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer5 === category ? 20 : 18,
+                        fontWeight: answer5 === category ? 600 : 500,
+                        backgroundColor: answer5 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer5 === category ? 'white' : 'black'}} 
                         
-                        {questionState===11 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer11 === category ? '#09536a' : 'lightblue',
-                            color: answer11 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer11(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {questionState===12 && services_list['knowSegment'].map((category, index) =>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer12 === category ? '#09536a' : 'lightblue',
-                            color: answer12 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer12(category)}>
-                              {category}
-                          </li>
-                        )}
-                        {questionState===14 && services_list['productValue'].map((category, index) =>
-                        <>
-                          <li key={index} 
-                          style={{cursor: 'pointer',
-                            borderRadius: 5,
-                            padding: '10px 10px',
-                            textAlign: 'left',
-                            marginBottom: '5px',
-                            backgroundColor: answer14 === category ? '#09536a' : 'lightblue',
-                            color: answer14 === category ? 'white' : 'black'}} 
-                            
-                          onClick={() => setAnswer14(category)}>
-                              {category}
-                              <p style={{fontSize: 13,marginTop: 4,fontWeight: 150}}>{question8b[index]}</p>
-                              <p style={{fontSize: 13,marginTop: 0,marginBottom: 0,fontWeight: 150}}>{question8bExamples[index]}</p>
+                      onClick={() => setAnswer5(category)}>
+                          {category}
+                      </li>
+                    )}
+                    {questionState===6 && services_list['productSaleRegion'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer6 === category ? 20 : 18,
+                        fontWeight: answer6 === category ? 600 : 500,
+                        backgroundColor: answer6 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer6 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer6(category)}>
+                          {category}
+                          <span style={{fontSize: 13,marginLeft: 6}}>{question4a[index]}</span>
 
-                          </li>
-                          <div style={{textAlign: 'left',paddingLeft: 10,}}>
-                          </div>
-                        </>
-                        )}
+                      </li>
+                    )}
+                    {questionState===7 && services_list['productSaleRegion'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer7 === category ? 20 : 18,
+                        fontWeight: answer7 === category ? 600 : 500,
+                        backgroundColor: answer7 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer7 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer7(category)}>
+                          {category}
+                          <span style={{fontSize: 13,marginLeft: 6}}>{question4a[index]}</span>
 
-                      </ul>
-                    </div>}
-                    <div style={{justifyContent: 'space-between'}}>
-                      {questionState>0 && 
-                        <button type="button" className='chatinputbtn' onClick={backClick}>Back</button>
-                      }
-                      {questionState<14 &&                       
-                      <button type="button" className='chatinputbtn' onClick={nextClick}>Next</button>
-                      } 
-                      {questionState==14 &&                     
-                      <button type="button" className='chatinputbtn' onClick={showReport}>Generate Report</button>
-                      } 
-                    </div>
+                      </li>
+                    )}
+                    {questionState===8 && services_list['knowSegment'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer8 === category ? 20 : 18,
+                        fontWeight: answer8 === category ? 600 : 500,
+                        backgroundColor: answer8 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer8 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer8(category)}>
+                          {category}
+                      </li>
+                    )}
+                    {questionState===9 && services_list['knowSegment'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer9 === category ? 20 : 18,
+                          fontWeight: answer9 === category ? 600 : 500,
+                        backgroundColor: answer9 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer9 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer9(category)}>
+                          {category}
+                      </li>
+                    )}
                     
+                    {questionState===11 && services_list['knowSegment'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer11 === category ? 20 : 18,
+                          fontWeight: answer11 === category ? 600 : 500,
+                        backgroundColor: answer11 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer11 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer11(category)}>
+                          {category}
+                      </li>
+                    )}
+                    {questionState===12 && services_list['knowSegment'].map((category, index) =>
+                      <li key={index} 
+                      style={{cursor: 'pointer',
+                        borderRadius: 5,
+                        padding: '10px 10px',
+                        textAlign: 'left',
+                        marginBottom: '5px',
+                        fontSize: answer12 === category ? 20 : 18,
+                        fontWeight: answer12 === category ? 600 : 500,
+                        backgroundColor: answer12 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                        color: answer12 === category ? 'white' : 'black'}} 
+                        
+                      onClick={() => setAnswer12(category)}>
+                          {category}
+                      </li>
+                    )}
+                    {questionState===14 && services_list['productValue'].map((category, index) =>
+                    <>
+                      <li key={index} 
+                        style={{cursor: 'pointer',
+                          borderRadius: 5,
+                          padding: '10px 10px',
+                          textAlign: 'left',
+                          marginBottom: '5px',
+                          fontSize: answer14 === category ? 20 : 18,
+                          fontWeight: answer14 === category ? 600 : 500,
+                          backgroundColor: answer14 === category ? 'rgb(117, 178, 198)' : 'lightblue',
+                          color: answer14 === category ? 'white' : 'black'}} 
+                          
+                        onClick={() => setAnswer14(category)}>
+                          {category}
+                        <p style={{fontSize: 13,marginTop: 4,fontWeight: 150}}>{question8b[index]}</p>
+                        <p style={{fontSize: 13,marginTop: 0,marginBottom: 0,fontWeight: 150}}>{question8bExamples[index]}</p>
+                      </li>
+                    </>
+                    )}
+
+                </ul>
+              </div>}
+              <div
+                style={{
+                  marginTop: 10,
+                  display: 'flex',
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                  padding: '0 20',
+                }}
+                >
+                {questionState>0 && 
+                  <button type="button" className='chatinputbtn' onClick={backClick}>Back</button>
+                }
+                {questionState<14 &&                       
+                <button type="button" className='chatinputbtn'  onClick={nextClick}>Next</button>
+                }
+                {questionState==14 &&                     
+                <button type="button" className='chatinputbtn' onClick={showReport}>Generate Report</button>
+                } 
               </div>
+                    
+            </div>
               
           </div>
           
-        </div>)}
+        </div>
+        
+        )}
 
         {showReportPage && (
         isLoading ? (
-          // Render the loading icon or placeholder content
+          // Render the loading icon if report not generated yet
           <>
-            <div style={{textAlign: 'center'}}>Loading...</div>
-            <Lottie animationData={animationData}  loop={true}/>
+            <div style={{textAlign: 'center',justifyContent: 'center',alignContent: 'center',width: '70%',height: 600,marginLeft: '30%',marginRight: '30%'}}>
+              Generating your report...
+              <Lottie animationData={animationData}  loop={true}/>
+            </div>
             </>
         ) : (
         <>
-          {/* <button type="button" className='chatinputbtn' onClick={backClick}>Back</button> */}
-          <div style={{marginLeft: '10%', marginRight: '10%', overflow: 'auto',whiteSpace: 'pre-wrap' }}>
-            <h1>Report</h1>
-            {resIntro}
-            <h2>Overview: </h2>{resOverview}
-            <h2>Market Benefits </h2>{marketBenefits}
-            <h2>Marketing challenges </h2>{marketChallenges}
-            <h2>Product Fit </h2> {productFit}
-            <h2>Value misalignment </h2> {valueMisalignment}
-            <h2>Marketing methods </h2> {marketingMethods}
-            <h2>Failure Section </h2> {failureSection}
-            <h2>Final Section </h2> {finalSection}
+          <div className="pdfHeader">
+            <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo'/>
           </div>
-       </>))}
+
+          <div className="pdfFooter">
+            Page <span className="pageNumber"></span>
+          </div>
+          
+          <button type="button" className='btn' style={{right: 10,top: 80,position: 'absolute'}} onClick={generatePDF}>Download PDF</button>
+          
+          <div className= 'reportGenerated' style={{marginLeft: '10%', marginRight: '10%', overflow: 'auto',whiteSpace: 'pre-wrap' }}>
+            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>
+              Business Overview
+            </h1>
+
+            <div className='reportBodyText'>
+              {resIntro}
+            </div>
+
+            <h2 className='reportHeader'>Overview</h2> 
+            <div className='reportBodyText'>
+                {resOverview}
+            </div>
+
+            <div className="html2pdf__page-break"></div>
+
+            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>Marketing Analysis</h1>
+
+            <h2 className='reportHeader'>Market Benefits</h2> 
+            <div className='reportBodyText'>
+                {marketBenefits}
+            </div>
+            {answer2==='No' && (
+              <>
+                <h2 className='reportHeader'>Marketing Challenges</h2> 
+                <div className='reportBodyText'>
+                    {marketChallenges}
+                </div>
+              </>
+            )}
+            
+
+            <div className="html2pdf__page-break"></div>
+
+            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>Marketing Strategies</h1>
+
+            <h2 className='reportHeader'>Marketing Methods</h2> 
+            <div className='reportBodyText'>
+                {marketingMethods}
+            </div>
+
+            <h2 className='reportHeader'>Product Fit</h2> 
+            <div className='reportBodyText'>
+                {productFit}
+            </div>
+            <div className="html2pdf__page-break"></div>
+
+            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.2}}>Evaluation & Conclusion</h1>
+
+            <h2 className='reportHeader'>Value Misalignment</h2> 
+            <div className='reportBodyText'>
+                {valueMisalignment}
+            </div>
+
+            <h2 className='reportHeader'>Failure Section</h2> 
+            <div className='reportBodyText'>
+                {failureSection}
+            </div>
+
+            <div className="html2pdf__page-break"></div>
+
+            <h2 className='reportHeader'>Final Section</h2> 
+            <div className='reportBodyText'>
+                {finalSection}
+            </div>
+
+          </div>
+        </>
+        ))}
+
       </>    
       )
 }

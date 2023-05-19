@@ -1,0 +1,27 @@
+@media screen {
+    div.pdfHeader,
+    div.pdfFooter {
+        display: none;
+    }
+    }
+    
+    @media print {
+    div.pdfHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        text-align: left;
+    }
+    
+    div.pdfFooter {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    div.pdfFooter:before {
+        content: counter(page);
+    }
+    }
+      
