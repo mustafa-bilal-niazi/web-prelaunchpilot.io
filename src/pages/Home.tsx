@@ -9,7 +9,7 @@ import animationData2 from '../assets/lottie/grafico2.json';
 import animationData3 from '../assets/lottie/analysis.json';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination,Navigation,Autoplay} from 'swiper';
-
+import NavBar from '../components/NavBar';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -90,6 +90,8 @@ export default function Home(){
 
     return (
         <>
+            <NavBar/>
+
             <img src="/src/assets/images/pilothero1.png" style= {{width: '65%',right: 0,position: 'absolute'}}/>
             <div 
                 style={{
@@ -120,7 +122,7 @@ export default function Home(){
                     </svg>               
                 </div>
             </div>
-            <div style={{marginTop: 100,marginBottom: 100,width: '100%', backgroundColor: 'white',paddingLeft: '10%',paddingRight: '10%'}}>
+            <div style={{marginTop: 100,width: '100%', backgroundColor: 'white',paddingLeft: '10%',paddingRight: '10%'}}>
                 <Swiper
                     effect={'fade'}
                     spaceBetween={0}
@@ -131,12 +133,6 @@ export default function Home(){
                       }}
                     centeredSlides={true}
                     slidesPerView={4}
-                    // coverflowEffect={{
-                    //   rotate: 0,
-                    //   stretch: 1,
-                    //   depth: 100,
-                    //   modifier: 2.5,
-                    // }}
                     modules={[Autoplay, Pagination, Navigation]}
                     className="swiper_container"
                 >
@@ -221,10 +217,10 @@ export default function Home(){
                                         {webKitState1Time}
                                     </div>
                                 </div>
-                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black'}}>
+                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black',textAlign: 'justify'}}>
                                     {webKitState2}
                                 </p>
-                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black',fontWeight: 600,fontStyle: 'italic'}}>
+                                <p style={{fontFamily: 'Questrial,sans-serif',fontSize: 20, color: 'black',fontWeight: 600,fontStyle: 'italic', textAlign: 'justify'}}>
                                     {webKitState3}
                                 </p>
                                 <button className='l4' type='button'>{webKitState4}</button>
@@ -307,12 +303,13 @@ export default function Home(){
                     <h2 className='midText'> Our Pricing Plans </h2>
                 </div>
                 <div className='containerPricingPlans'>
+                     <p style={{position: 'absolute', backgroundColor: '#19A7CE', color: 'white', paddingTop: 15,paddingBottom: 15,paddingLeft: 25,paddingRight: 25, borderRadius: 4,top: -40,marginLeft: '7%'}}>
+                        <span style={{textAlign: 'center', fontFamily: 'Questrial, sans-serif', fontWeight: 500,fontSize: 15}}>
+                            Great Starting Point
+                        </span>
+                    </p>
                     <div className='plancontainer'>
-                        <p style={{position: 'absolute', backgroundColor: '#19A7CE', color: 'white', paddingTop: 15,paddingBottom: 15,paddingLeft: 25,paddingRight: 25, borderRadius: 4,top: -40,alignSelf:'center'}}>
-                            <span style={{textAlign: 'center', fontFamily: 'Questrial, sans-serif', fontWeight: 500,fontSize: 15}}>
-                                Great Starting Point
-                            </span>
-                        </p>
+                        
                         <h1 style={{textAlign: 'center',fontSize: '1.5rem',fontFamily: 'Questrial, sans-serif',fontWeight: 800,}}>
                             Assessment Lite
                         </h1>

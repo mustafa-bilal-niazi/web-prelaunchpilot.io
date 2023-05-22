@@ -7,6 +7,15 @@ body {
     margin: 0
 }
 
+.pdfHeader {
+    position: fixed;
+    top: 0;
+  }
+
+  /* @page {
+    margin-top: 50px;
+  } */
+
 .bottomBar {
     display: flex;
     border-style: solid;
@@ -19,6 +28,7 @@ body {
 }
 
 .chatscreen {
+    margin-top: 60px;
     background: linear-gradient(to right, rgb(136 253 246 / 57%), rgb(85 184 229 / 42%));
     display: flex;
     height:600px;
@@ -38,6 +48,46 @@ body {
 
 }
 
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0px;
+    height: 100%;
+    background: white;
+    padding-left: 30px;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar h2 {
+    font-weight: 500;
+    padding: 0;
+    color: #555;
+    font-family: "Sofia-pro",Sans-serif;
+    font-size: 18px;
+  }
+
+  .sidebar h3 {
+    font-weight: 500;
+    padding: 0;
+    color: #c1bbbb;
+    font-family: "Sofia-pro",Sans-serif;
+    font-size: 14px;
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+
+.reportSectionHeader {
+    font-size: 32;
+    font-weight: 600;
+    font-family: "Sofia-pro",Sans-serif;
+    color: 'red';
+    background-color: 'black';
+    line-height: 1.5;
+    letter-spacing: 1.5
+}
 .reportHeader {
     font-weight: 500;
     color:rgb(69, 64, 64);
@@ -47,9 +97,10 @@ body {
 }
 
 .reportBodyText {
+    text-align: justify;
     color:rgb(69, 64, 64);
     font-family: "Sofia-pro",Sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     letter-spacing: 1.3px;
     line-height: 1.5;
@@ -212,15 +263,37 @@ body {
     width: 33.333%;
     position: relative;
     min-height: 1px;
+    max-height: 700px;
+    overflow-y: scroll;
     box-shadow: 0px 0px 80px -15px rgba(0,0,0,.1);
     margin: 10px 15px 10px 15px;
     --e-column-margin-right: 15px;
     --e-column-margin-left: 15px;
     padding: 40px 30px 30px 30px;
 }
+.plancontainer::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Modify the scrollbar track */
+.plancontainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* Modify the scrollbar thumb */
+.plancontainer::-webkit-scrollbar-thumb {
+    background: #bec4c4bf;
+}
+
+/* Modify the scrollbar thumb on hover */
+.plancontainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 .botNavMainContainer {
-    margin-top: 0px;
+    margin-top: 200px;
     margin-bottom: 0px;
     padding: 20px 0px 20px 0px;
     max-width: 1024px;
@@ -312,7 +385,7 @@ body {
     align-content: flex-start;
     align-content: center;
     align-items: center;
-    padding: 10px 10px 10px 50px;
+    padding: 10px 70px 10px 50px;
 
 }
 
@@ -358,14 +431,14 @@ body {
     
 }
 .l11{
-    text-align: left;
+    text-align: justify;
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-family: "Questrial",Sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 32px;
     margin-top: 10px;
@@ -516,6 +589,7 @@ body {
     right: 0;
     z-index: 1000;
     background: linear-gradient(to right, rgb(136 253 246 / 57%), rgb(85 184 229 / 42%));
+    background-color: white;
     color: rgb(100, 98, 98);
     display: flex;
     font-weight: 400;
@@ -527,6 +601,11 @@ body {
     transition: .4s;
 }
 
+.nav-absolute {
+    position: absolute; 
+    /* top: 0; */
+  }
+  
 .navContainer {
     display: flex;
 }

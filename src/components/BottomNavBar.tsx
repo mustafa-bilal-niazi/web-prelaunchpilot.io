@@ -50,9 +50,8 @@ function BottomNav() {
                 </div>
                 <p style={{ fontSize: 12, fontFamily: 'sans-serif', color: '#555' }}>by</p>
                 <a href="https://algoryc.com" style={{ textDecoration: 'none'}}>
-                    <p className='bottomNavHyperlinkText' style={{marginLeft: 2}}>Algoryc</p>
+                    <p className='bottomNavHyperlinkText' style={{marginLeft: 2}}>ALGORYC</p>
                 </a>
-                <p style={{ fontSize: 12, fontFamily: 'sans-serif', color: '#555' ,marginLeft: 2}}>in Islamabad</p>
             </div>
         </div>
     </>

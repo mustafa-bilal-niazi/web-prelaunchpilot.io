@@ -16,7 +16,6 @@ function App() {
 // same route elemets for now
   return (
   <>
-    <NavBar/>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
           <Route path='/consultOther' element={<StartBusiness/>}></Route>

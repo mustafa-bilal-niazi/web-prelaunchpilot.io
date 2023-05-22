@@ -1,6 +1,6 @@
-import {Link, useMatch, useResolvedPath} from 'react-router-dom'
+import {Link, useMatch, useResolvedPath,useLocation} from 'react-router-dom'
 import logoimage from '../assets/images/pilotlogo.png';
-import loginlogo from '../assets/images/loginlogo.png';
+// import loginlogo from '../assets/images/loginlogo.png';
 
 export default function NavBar(){
 
@@ -15,9 +15,12 @@ export default function NavBar(){
             </ul>
         )
     }
+    const location = useLocation();
+    const isChatbotPage = location.pathname === '/bot';
+    const navClass = isChatbotPage ? 'nav nav-absolute' : 'nav';
 
 return (
-    <nav className="nav">
+    <nav className={navClass}>
         <div className='navContainer'>
             <Link to='/' className='site-name'>
                 <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo' />
@@ -30,10 +33,6 @@ return (
                 <CustomLink to='/more' className='' >More</CustomLink>
             </ul>
         </div>
-        {/* <div className='loginSection'>
-            <img src={loginlogo} style={{ width: '50px', height: 'auto'}} />
-            <CustomLink to='/login' className='navMarker' >Login</CustomLink>
-        </div> */}
         <CustomLink to='/bot' className='btn'>TRY IT FREE</CustomLink>
     </nav>
 

@@ -1,8 +1,10 @@
-import SignupForm from "../components/SignUpForm"
+import SignupForm from "../components/SignUpForm";
+import NavBar from "../components/NavBar";
 
 export default function StartBusiness(){
     return (
         <>
+        <NavBar/>
             <div 
                 style={{
                 backgroundImage: 'linear-gradient(to right, rgb(136 253 246 / 57%), rgb(85 184 229 / 42%))',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 import { set1, services_list, question8b, question8bExamples,question4a,question3examples } from './constants';
-import ReportPage from './ReportPage';
+import Typed from 'typed.js';
 import { useNavigate } from 'react-router-dom';
 import { Link,Route } from 'react-router-dom';
 import animationData from '../assets/lottie/loadingfiles.json';
@@ -11,19 +11,44 @@ import { BsArrowRightCircleFill } from 'react-icons/bs';
 import html2pdf from 'html2pdf.js';
 import logoimage from '../assets/images/pilotlogo.png';
 import '../pdfStyles.css';
+import NavBar from '../components/NavBar';
 
 
-
-export default function TryFree(){
+export default function ChatBotAi(){
 
   function generatePDF() {
     const element = document.querySelector('.reportGenerated');
-    html2pdf()
-      .set({ html2canvas: { scale: 4 } })
-      .from(element)
-      .save();
-  }
+    const opt = {
+      margin: [1, 0, 1, 0],
+      filename: 'PreLauchPilot-Report.pdf',
+      html2canvas: { scale: 4 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { before: '.newPage', avoid: ['.MBConten','.MCContent', '.MMContent', '.PFContent', '.VMContent','FailContent','FinalContent'] }
+    };
   
+    html2pdf().set(opt).from(element).save();
+  };
+  
+  
+  function TypingEffect() {
+    useEffect(() => {
+      const typed = new Typed('.l3', {
+        strings: ["Analysing Your Business Potential...","Exploring Business Market...", "Searching For Possible Challenges...", "Divising Market Strategy...", "Setting Up Marketing Approaches...", "Researching Lauch and Scaling...",],
+        typeSpeed: 40,
+        backSpeed: 100,
+        loop: true,
+        showCursor: false,
+      });
+  
+      return () => {
+        typed.destroy();
+      };
+    }, []);
+  
+    return (
+      <div className='l3'></div>
+    );
+  }
 
     const [showReportPage, setShowReportPage] = useState(false);
     const [userCompany,setuserCompany] = useState('ALGORYC')
@@ -368,6 +393,21 @@ export default function TryFree(){
       }
     }
 
+    function toggleOverview(a : string, b: string): void {
+      const content = document.getElementById(a) as HTMLElement;
+      const arrow = document.getElementById(b) as HTMLButtonElement;
+    
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        arrow.innerHTML = '&#x25BC;';
+      } else {
+        content.style.display = 'none';
+        arrow.innerHTML = '&#x25B6;';
+      }
+    }
+    
+    
+
     useEffect(() => {
       console.log('intro: ' +resIntro)
       console.log('Overview: ' +resOverview)
@@ -397,12 +437,17 @@ export default function TryFree(){
     
     const [isLoading, setIsLoading] = useState(true);
 
-
     useEffect(() => {
-      if (resIntro && resOverview) {
+      if(answer9==='No' || answer12==='No'){
+        setValueMisalignment('notapp')
+      }
+      if(answer2==='Yes'){
+        setMarketChallenges('notapp')
+      }
+      if(resIntro && resOverview && finalSection && failureSection && marketBenefits && valueMisalignment && marketingMethods && productFit) {
         setIsLoading(false);
       }
-    }, [resIntro, resOverview]);
+    }, [resIntro, resOverview,finalSection,failureSection,marketBenefits,marketChallenges,marketingMethods,productFit,valueMisalignment]);
     
     window.onload = () => {
       const pageNumbers = document.querySelectorAll('.pageNumber');
@@ -411,19 +456,24 @@ export default function TryFree(){
         pageNumberElement.textContent = (i + 1).toString();
       }
     };
-    
 
     const [searchTerm, setSearchTerm] = useState('');
     
     const showReport = () => {
       setShowReportPage(true);
     }
-    const hideReport = () => {
-      setShowReportPage(false);
-    }
+    
+    const handleSearch = (newSearchQuery: any) => {
+      setSearchTerm(newSearchQuery);
+    };
+    
 
     return (
-        <>{!showReportPage && (
+        <>
+            <NavBar/>
+
+        {!showReportPage && (
+          
         <div className="chatscreen">
 
           <div className="chattext-container">
@@ -455,14 +505,14 @@ export default function TryFree(){
           <div className="chatinput-maincontainer">
 
             <div className="chatinput-container">
-              <div style={{fontSize: 18,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',padding: '4%',textAlign: 'center'}}>{questionSet[questionState]}</div>
+              <div style={{fontSize: 18,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',padding: '4%',textAlign: 'justify'}}>{questionSet[questionState]}</div>
               {questionState===0 && ( 
               <>
                 <p style={{fontSize: 13,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginLeft: '20%',marginBottom: 0,padding: 0,textAlign: 'left'}}>User name</p>
                 <input
                   type="text"
                   value={userName}
-                  onChange={(event) => setuserEmail(event.target.value)}
+                  onChange={(event) => setuserName(event.target.value)}
                   style={{
                     fontFamily: 'Montserrat,Sans-serif',
                     width: '60%',
@@ -488,7 +538,7 @@ export default function TryFree(){
                 <input
                   type="text"
                   value={userCompany}
-                  onChange={(event) => setuserEmail(event.target.value)}
+                  onChange={(event) => setuserCompany(event.target.value)}
                   style={{
                     fontFamily: 'Montserrat,Sans-serif',
                     width: '60%',
@@ -498,6 +548,23 @@ export default function TryFree(){
                   }}
                 />
               </>
+              )}
+              {answer2 === "Yes" && questionState === 3 && ( 
+                <div style={{textAlign: 'left', marginLeft: '10%',marginBottom: 5}}>
+                <input
+                  type="text"
+                  placeholder='Search Segment'
+                  value={searchTerm}
+                  style={{
+                    fontFamily: 'Montserrat,Sans-serif',
+                    width: '50%',
+                    border: '2px solid black',
+                    borderRadius: '5px',
+                    padding: '8px',
+                  }}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+                </div>
               )}
               {questionState===10 && ( <textarea
                 value={answer10}
@@ -563,31 +630,37 @@ export default function TryFree(){
                         {category}
                     </li>
                   )}
-                  {answer2==="Yes" && questionState===3 && 
-                  // <input
-                  //   style={{borderWidth: '1px solid'}}
-                  //   type="text"
-                  //   placeholder="Search"
-                  //   value={searchTerm}
-                  //   onChange={event => setSearchTerm(event.target.value)}
-                  // /> &&
-                  services_list[answer1].map((category, index) =>                        
-                    <li key={index} 
-                        style={{cursor: 'pointer',
-                          borderRadius: 5,
-                          padding: '10px 10px',
-                          textAlign: 'left',
-                          marginBottom: '5px',
-                          fontSize: answer3 === category ? 20 : 18,
-                          fontWeight: answer3 === category ? 600 : 500,
-                          backgroundColor: answer3 === category ? 'rgb(117, 178, 198)' : 'lightblue',
-                          color: answer3 === category ? 'white' : 'black'}} 
-                          
-                        onClick={() => setAnswer3(category)}>
-                            {category}
-                      </li>
-                    )}
-                    {questionState===4 && services_list['productType'].map((category, index) =>
+                  {answer2 === "Yes" && questionState === 3 && (
+                  <>
+                    {services_list[answer1]
+                      .filter((category) =>
+                        category.toLowerCase().includes(searchTerm.toLowerCase())
+                      )
+                      .map((category, index) => (
+                        <li
+                          key={index}
+                          style={{
+                            cursor: "pointer",
+                            borderRadius: 5,
+                            padding: "10px 10px",
+                            textAlign: "left",
+                            marginBottom: "5px",
+                            fontSize: answer3 === category ? 20 : 18,
+                            fontWeight: answer3 === category ? 600 : 500,
+                            backgroundColor:
+                              answer3 === category ? "rgb(117, 178, 198)" : "lightblue",
+                            color: answer3 === category ? "white" : "black",
+                          }}
+                          onClick={() => setAnswer3(category)}
+                        >
+                          {category}
+                        </li>
+                      ))}
+                  </>
+                )}
+
+                    {questionState===4 && (
+                      services_list['productType'].map((category, index) =>
                       <li key={index}
                       style={{cursor: 'pointer',
                         borderRadius: 5,
@@ -603,7 +676,7 @@ export default function TryFree(){
                           {category}
                           <p style={{fontSize: 13,fontWeight: 150,marginTop: 5,marginBottom:5}}>{question3examples[index]}</p>
                       </li>
-                    )}
+                    ))}
                     {questionState===5 && services_list['knowSegment'].map((category, index) =>
                       <li key={index} 
                       style={{cursor: 'pointer',
@@ -776,25 +849,47 @@ export default function TryFree(){
         isLoading ? (
           // Render the loading icon if report not generated yet
           <>
-            <div style={{textAlign: 'center',justifyContent: 'center',alignContent: 'center',width: '70%',height: 600,marginLeft: '30%',marginRight: '30%'}}>
-              Generating your report...
+            <div style={{textAlign: 'center',justifyContent: 'center',alignContent: 'center',width: '100%',height: 600,marginTop: 60}}>
+              <div style={{marginTop: '100px',marginBottom: '100px'}}><TypingEffect/></div>
               <Lottie animationData={animationData}  loop={true}/>
             </div>
             </>
         ) : (
-        <>
-          <div className="pdfHeader">
-            <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo'/>
+        <div style={{marginTop: 60}}>
+          <button type="button" className='btn' style={{right: 10,top: 80,position: 'absolute',padding: 20}} onClick={generatePDF}>Download PDF</button>
+          <div id="sidebar" className="sidebar" style={{width: '25%'}}>
+          <a href="#business-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h2>Business Overview</h2></a>
+          <a href="#O-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Overview</h3></a>
+          <a href="#MA-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h2>Marketing Analysis</h2></a>
+          <a href="#MB-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Marketing Benefits</h3>   </a>
+          <a href="#MC-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Marketing Challenges</h3></a>
+          <a href="#MS-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h2>Marketing Strategies</h2></a>
+          <a href="#MM-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Marketing Methods</h3></a>
+          <a href="#PF-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Product Fit</h3></a>
+          <a href="#EC-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h2>Evaluation & Conclusion</h2></a>
+          <a href="#VM-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Value Misalignment</h3> </a>
+          <a href="#Fail-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Failure Section</h3> </a>
+          <a href="#Final-overview" style={{textDecoration: 'none',color: '#555',}}>
+            <h3>Final Section</h3> </a>
           </div>
-
-          <div className="pdfFooter">
-            Page <span className="pageNumber"></span>
-          </div>
-          
-          <button type="button" className='btn' style={{right: 10,top: 80,position: 'absolute'}} onClick={generatePDF}>Download PDF</button>
-          
+          <div style={{marginLeft: '20%',width: 'auto',marginRight: '15%'}}>
           <div className= 'reportGenerated' style={{marginLeft: '10%', marginRight: '10%', overflow: 'auto',whiteSpace: 'pre-wrap' }}>
-            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>
+            {/* <div className="pdfHeader">
+              <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo'/>
+            </div> */}
+          
+            <h1 id='business-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>
               Business Overview
             </h1>
 
@@ -802,65 +897,94 @@ export default function TryFree(){
               {resIntro}
             </div>
 
-            <h2 className='reportHeader'>Overview</h2> 
-            <div className='reportBodyText'>
-                {resOverview}
+            <h2 id='O-overview' className='reportHeader'>
+              Overview
+              <button id="toggleOverview" type="button"  style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('overviewContent','toggleOverview')}>&#x25BC;</button>
+            </h2> 
+            <div id="overviewContent" className='reportBodyText'>
+              {resOverview}
             </div>
 
-            <div className="html2pdf__page-break"></div>
+            <div className="newPage">
+              <h1 id='MA-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Analysis</h1>
 
-            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>Marketing Analysis</h1>
-
-            <h2 className='reportHeader'>Market Benefits</h2> 
-            <div className='reportBodyText'>
+              <h2 id='MB-overview' className='reportHeader'>
+                Market Benefits
+                <button id="toggleMB" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MBContent','toggleMB')}>&#x25BC;</button>
+              </h2> 
+              <div id ='MBContent' className='reportBodyText'>
                 {marketBenefits}
-            </div>
-            {answer2==='No' && (
-              <>
-                <h2 className='reportHeader'>Marketing Challenges</h2> 
-                <div className='reportBodyText'>
-                    {marketChallenges}
-                </div>
-              </>
-            )}
-            
-
-            <div className="html2pdf__page-break"></div>
-
-            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.5}}>Marketing Strategies</h1>
-
-            <h2 className='reportHeader'>Marketing Methods</h2> 
-            <div className='reportBodyText'>
-                {marketingMethods}
+              </div>
+              {marketChallenges!=='notapp' && (
+                <>
+                  <h2 id='MC-overview' className='reportHeader'>
+                    Marketing Challenges
+                    <button id="toggleMC" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MCContent','toggleMC')}>&#x25BC;</button>
+                  </h2> 
+                  <div id='MCContent' className='reportBodyText'>
+                      {marketChallenges}
+                  </div>
+                </>
+              )}
             </div>
 
-            <h2 className='reportHeader'>Product Fit</h2> 
-            <div className='reportBodyText'>
-                {productFit}
-            </div>
-            <div className="html2pdf__page-break"></div>
+            <div className="newPage">
+              <h1 id='MS-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Strategies</h1>
 
-            <h1 style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',tabSize: 4,color: 'rgb(69, 64, 64)',lineHeight: 1.5,letterSpacing: 1.2}}>Evaluation & Conclusion</h1>
-
-            <h2 className='reportHeader'>Value Misalignment</h2> 
-            <div className='reportBodyText'>
-                {valueMisalignment}
-            </div>
-
-            <h2 className='reportHeader'>Failure Section</h2> 
-            <div className='reportBodyText'>
-                {failureSection}
-            </div>
-
-            <div className="html2pdf__page-break"></div>
-
-            <h2 className='reportHeader'>Final Section</h2> 
-            <div className='reportBodyText'>
-                {finalSection}
+              <h2 id='MM-overview' className='reportHeader'>
+                Marketing Methods
+                <button id="toggleMM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MMContent','toggleMM')}>&#x25BC;</button>
+              </h2> 
+              <div id='MMContent' className='reportBodyText'>
+                  {marketingMethods}
+              </div>
+              
+              <h2 id='PF-overview' className='reportHeader'>
+                Product Fit
+                <button id="togglePF" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('PFContent','togglePF')}>&#x25BC;</button>
+              </h2> 
+              <div id='PFContent' className='reportBodyText'>
+                  {productFit}
+              </div>
             </div>
 
+            <div className="newPage">
+              <h1 id='EC-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Evaluation & Conclusion</h1>
+
+              {valueMisalignment!='notapp' && (
+                <>
+                  <h2 id='VM-overview' className='reportHeader'>
+                    Value Misalignment
+                    <button id="toggleVM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('VMContent','toggleVM')}>&#x25BC;</button>
+                  </h2> 
+                  <div id='VMContent' className='reportBodyText'>
+                      {valueMisalignment}
+                  </div>
+                </>
+                )}
+              <h2 id='Fail-overview' className='reportHeader'>
+                Failure Section
+                <button id="toggleFail" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FailContent','toggleFail')}>&#x25BC;</button>
+              </h2> 
+
+              <div id='FailContent' className='reportBodyText'>
+                  {failureSection}
+              </div>
+            </div>
+
+            <div className="newPage">
+              <h2 id='Final-overview' className='reportHeader'>
+                Final Section
+                <button id="toggleFinal" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FinalContent','toggleFinal')}>&#x25BC;</button>
+              </h2> 
+              <div id='FinalContent' className='reportBodyText'>
+                  {finalSection}
+              </div>
+            </div>
           </div>
-        </>
+          </div>
+        </div>
+        
         ))}
 
       </>    
