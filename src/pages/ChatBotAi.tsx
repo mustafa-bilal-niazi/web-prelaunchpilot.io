@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-import { set1, services_list, question8b, question8bExamples,question4a,question3examples } from './constants';
+import { set1, services_list, question8b, question8bExamples,question4a,question3examples } from '../assets/constants/constants';
 import Typed from 'typed.js';
 import { useNavigate } from 'react-router-dom';
 import { Link,Route } from 'react-router-dom';
@@ -8,11 +8,15 @@ import animationData from '../assets/lottie/loadingfiles.json';
 import chatbothero from '../assets/lottie/chatbothero.json';
 import Lottie from 'lottie-react';
 import { BsArrowRightCircleFill } from 'react-icons/bs';
-import html2pdf from 'html2pdf.js';
-import logoimage from '../assets/images/pilotlogo.png';
-import '../pdfStyles.css';
-import NavBar from '../components/NavBar';
+import { IoMdDoneAll } from 'react-icons/io';
 
+import html2pdf from 'html2pdf.js';
+import NavBar from '../components/NavBar';
+import ProgressBar from '../components/ProgressBar';
+import emailjs from '@emailjs/browser';
+import animationData2 from '../assets/lottie/waitingicon.json';
+import animationData3 from '../assets/lottie/completeicon.json';
+import animationData4 from '../assets/lottie/thinkingicon.json';
 
 export default function ChatBotAi(){
 
@@ -20,7 +24,7 @@ export default function ChatBotAi(){
     const element = document.querySelector('.reportGenerated');
     const opt = {
       margin: [1, 0, 1, 0],
-      filename: 'PreLauchPilot-Report.pdf',
+      filename: `PreLauchPilot-${userCompany}-Report.pdf`,
       html2canvas: { scale: 4 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak: { before: '.newPage', avoid: ['.MBConten','.MCContent', '.MMContent', '.PFContent', '.VMContent','FailContent','FinalContent'] }
@@ -32,25 +36,24 @@ export default function ChatBotAi(){
   
   function TypingEffect() {
     useEffect(() => {
-      const typed = new Typed('.l3', {
+      const typed = new Typed('.l33', {
         strings: ["Analysing Your Business Potential...","Exploring Business Market...", "Searching For Possible Challenges...", "Divising Market Strategy...", "Setting Up Marketing Approaches...", "Researching Lauch and Scaling...",],
         typeSpeed: 40,
-        backSpeed: 100,
+        backSpeed: 60,
         loop: true,
         showCursor: false,
       });
-  
       return () => {
         typed.destroy();
       };
     }, []);
   
     return (
-      <div className='l3'></div>
+      <div className='l33'></div>
     );
   }
 
-    const [showReportPage, setShowReportPage] = useState(false);
+    const [showReportPage, setShowReportPage] = useState(false); //change to false after testing
     const [userCompany,setuserCompany] = useState('ALGORYC')
     const [userName,setuserName] = useState('mustafa bilal')
     const [userEmail,setuserEmail] = useState('mustafa@gmail.com')
@@ -79,7 +82,65 @@ export default function ChatBotAi(){
     const [failureSection,setFailureSection]=useState('');
     const [finalSection,setFinalSection]=useState('');
     const [buttonState,setButtonState]=useState('Next')
+    
+    const [selectedItem,setSelectedItem]=useState(false)
+    
+    // useEffect(() => {
+    //   const returnIfSelected = () => {
+    //     let x;
+      
+    //     switch (questionState) {
+    //       case 1:
+    //         x = answer1;
+    //         break;
+    //       case 2:
+    //         x = answer2;
+    //         break;
+    //       case 3:
+    //         x = answer3;
+    //         break;
+    //       case 4:
+    //         x = answer4;
+    //         break;
+    //       case 5:
+    //         x = answer5;
+    //         break;
+    //       case 6:
+    //         x = answer6;
+    //         break;
+    //       case 7:
+    //         x = answer7;
+    //         break;
+    //       case 8:
+    //         x = answer8;
+    //         break;
+    //       case 9:
+    //         x = answer9;
+    //         break;
+    //       case 10:
+    //         x = answer10;
+    //         break;
+    //       case 11:
+    //         x = answer11;
+    //         break;
+    //       case 12:
+    //         x = answer12;
+    //         break;
+    //       case 13:
+    //         x = answer13;
+    //         break;
+    //       case 14:
+    //         x = answer14;
+    //         break;
+    //       default:
+    //         x = '';
+    //     }
+    //     setSelectedItem(x !== '');      
+    //   };
+    //   returnIfSelected()
+    // }, [answer1,answer2,answer3,answer4,answer5,answer6,answer7,answer8,answer9,answer10,answer11,answer12,answer13,answer14]);
 
+// const checkIfSelected
 
 //------------------------------------------------------------API Functions---------------------------------------------------------------
 
@@ -243,6 +304,11 @@ export default function ChatBotAi(){
     };
 
 //-----------------------------------------------------------------Question SET AND NEXT/BACK Button functions--------------------------------------------------------------------
+// function sendEmail {
+//   emailjs.send('PreLaunchPilot.Email', templateID, templateParams, publicKey);
+
+// }
+
 
     const questionSet = [
       'Enter your details',
@@ -274,124 +340,101 @@ export default function ChatBotAi(){
           }
           
         }
-        if(questionState>0 && questionState<16 && questionState!==2 && questionState!==5 && questionState!==9 && questionState!==12){
-          if(questionState===1){
-            getOverview()
-            getMarketBenefits()
-            getFinalSection()
-          };
-          if(questionState===7){
-            getMarketingMethods()
-          };
-          if(questionState===13){
-            setButtonState('Generate report')
-            if(answer9==='Yes' || answer12==='Yes'){
-              getValueMisalignment()
-            }
-          };
-          if(questionState===14){
-          };
-          setQuestionState(questionState+1)
+        interface Actions {
+          [key: number]: () => void;
         }
+        const actions: Actions = {
+          1: () => {
+            getOverview();
+            getMarketBenefits();
+            getFinalSection();
+            setQuestionState(questionState + 1);
+          },
+          7: () => {
+            getMarketingMethods();
+            setQuestionState(questionState + 1);
+          },
+          13: () => {
+            setButtonState('Generate report');
+            if (answer9 === 'No' && answer12 === 'No') {
+              getValueMisalignment();
+            }
+            setQuestionState(questionState + 1);
+          }
+        };
         
-        else if (questionState===2 || questionState===5  || questionState===9 || questionState===12){
-          if(questionState===2){
-            getFailureSection()
-            if(answer2==='Yes'){
-              getMarketChallenges() 
+        if (questionState > 0 && questionState < 16) {
+          if (actions.hasOwnProperty(questionState)) {
+            actions[questionState]();
+          } 
+          else if (questionState === 2 || questionState === 5 || questionState === 9 || questionState === 12) {
+            if (questionState === 2) {
+              getFailureSection();
+              if (answer2 === 'No') {
+                getMarketChallenges();
+              }
+              setQuestionState(answer2 === 'Yes' ? questionState + 1 : questionState + 2);
+
+            } 
+            if (questionState === 5) {
+              setQuestionState(answer5 === 'Yes' ? questionState + 1 : questionState + 2);
             }
-            if(answer2==='Yes'){
-              setQuestionState(questionState+1)
+            if (questionState === 9) {
+              getProductFit();
+              setQuestionState(answer9 === 'Yes' ? questionState + 1 : questionState + 2);
             }
-            if(answer2==='No'){
-              setQuestionState(questionState+2)
+            if (questionState === 12) {
+              setQuestionState(answer12 === 'Yes' ? questionState + 1 : questionState + 2);
             }
+          } 
+          else {
+            setQuestionState(questionState + 1);
           }
-          if(questionState===5){
-            if(answer5==='Yes'){
-              setQuestionState(questionState+1)
-            }
-            if(answer5==='No'){
-              setQuestionState(questionState+2)
-            }
-          }
-          if(questionState===9){
-            getProductFit()
-            if(answer9==='Yes'){
-              setQuestionState(questionState+1)
-            }
-            if(answer9==='No'){
-              setQuestionState(questionState+2)
-            }
-          }
-          if(questionState===12){
-            if(answer12==='Yes'){
-              setQuestionState(questionState+1)
-            }
-            if(answer12==='No'){
-              setQuestionState(questionState+2)
-            }
-          }
-          
         }
     }
 
+    function setQuestionStateBasedOnAnswer(answer: string) {
+      setQuestionState(answer === 'Yes' ? questionState - 1 : questionState - 2);
+    }
+    
     function backClick() {
-      if(questionState==3){
-        setAnswer3('')
-      }
-      if(questionState==6){
-        setAnswer6('')
-      }
-      if(questionState==10){
-        setAnswer10('')
-      }
-      if(questionState==13){
-        setAnswer13('')
-      }
-      // if(questionState==15){
-      //   hideReport()
-      // }
-      if(questionState>0 && questionState!==4 && questionState!==7 && questionState!==11 && questionState!==14){
-          setQuestionState(questionState-1)
-      }
-      else if (questionState===4 || questionState===7  || questionState===11 || questionState===14){
-        if(questionState===4){
-          if(answer2==='Yes'){
-            setQuestionState(questionState-1)
+      switch (questionState) {
+        case 3:
+          setAnswer3('');
+          setQuestionState(questionState - 1);
+          break;
+        case 6:
+          setAnswer6('');
+          setQuestionState(questionState - 1);
+          break;
+        case 10:
+          setAnswer10('');
+          setQuestionState(questionState - 1);
+          break;
+        case 13:
+          setAnswer13('');
+          setQuestionState(questionState - 1);
+          break;
+        case 4:
+          setQuestionStateBasedOnAnswer(answer2);
+          break;
+        case 7:
+          setQuestionStateBasedOnAnswer(answer5);
+          break;
+        case 11:
+          setQuestionStateBasedOnAnswer(answer9);
+          break;
+        case 14:
+          setButtonState('Next');
+          setQuestionStateBasedOnAnswer(answer12);
+          break;
+        default:
+          if (questionState > 0) {
+            setQuestionState(questionState - 1);
           }
-          if(answer2==='No'){
-            setQuestionState(questionState-2)
-          }
-        }
-        if(questionState===7){
-          if(answer5==='Yes'){
-            setQuestionState(questionState-1)
-          }
-          if(answer5==='No'){
-            setQuestionState(questionState-2)
-          }
-        }
-        if(questionState===11){
-          if(answer9==='Yes'){
-            setQuestionState(questionState-1)
-          }
-          if(answer9==='No'){
-            setQuestionState(questionState-2)
-          }
-        }
-        if(questionState===14){
-          setButtonState('Next')
-
-          if(answer12==='Yes'){
-            setQuestionState(questionState-1)
-          }
-          if(answer12==='No'){
-            setQuestionState(questionState-2)
-          }
-        }
       }
     }
+    
 
     function toggleOverview(a : string, b: string): void {
       const content = document.getElementById(a) as HTMLElement;
@@ -406,7 +449,13 @@ export default function ChatBotAi(){
       }
     }
     
-    
+
+    const calculatePercentage = () => {
+      const items = [resIntro,resOverview,marketBenefits,finalSection,failureSection,productFit,valueMisalignment,marketChallenges,marketingMethods];
+      const nonEmptyItems = items.filter(item => item !== '');
+      const percentage = (nonEmptyItems.length / items.length) * 100;
+      return percentage;
+    };
 
     useEffect(() => {
       console.log('intro: ' +resIntro)
@@ -444,18 +493,10 @@ export default function ChatBotAi(){
       if(answer2==='Yes'){
         setMarketChallenges('notapp')
       }
-      if(resIntro && resOverview && finalSection && failureSection && marketBenefits && valueMisalignment && marketingMethods && productFit) {
+      if(resIntro && resOverview && finalSection && failureSection && marketBenefits && valueMisalignment && marketingMethods && marketChallenges) {
         setIsLoading(false);
       }
     }, [resIntro, resOverview,finalSection,failureSection,marketBenefits,marketChallenges,marketingMethods,productFit,valueMisalignment]);
-    
-    window.onload = () => {
-      const pageNumbers = document.querySelectorAll('.pageNumber');
-      for (let i = 0; i < pageNumbers.length; i++) {
-        const pageNumberElement = pageNumbers[i] as HTMLElement;
-        pageNumberElement.textContent = (i + 1).toString();
-      }
-    };
 
     const [searchTerm, setSearchTerm] = useState('');
     
@@ -547,6 +588,7 @@ export default function ChatBotAi(){
                     padding: '10px',
                   }}
                 />
+                
               </>
               )}
               {answer2 === "Yes" && questionState === 3 && ( 
@@ -562,7 +604,7 @@ export default function ChatBotAi(){
                     borderRadius: '5px',
                     padding: '8px',
                   }}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(event) => handleSearch(event.target.value)}
                 />
                 </div>
               )}
@@ -596,6 +638,7 @@ export default function ChatBotAi(){
                 <ul className='ulforchatoptionstext'>
                   
                   {questionState===1 && set1.map((category, index) =>
+                  
                     <li key={index}
                       style={{cursor: 'pointer',
                         borderRadius: 5,
@@ -830,10 +873,14 @@ export default function ChatBotAi(){
                   <button type="button" className='chatinputbtn' onClick={backClick}>Back</button>
                 }
                 {questionState<14 &&                       
-                <button type="button" className='chatinputbtn'  onClick={nextClick}>Next</button>
+                <button type="button" className='chatinputbtn'  onClick={nextClick} 
+                // disabled={!selectedItem}
+                >Next</button>
                 }
                 {questionState==14 &&                     
-                <button type="button" className='chatinputbtn' onClick={showReport}>Generate Report</button>
+                <button type="button" className='chatinputbtn' onClick={showReport} 
+                // disabled={!selectedItem}
+                >Generate Report</button>
                 } 
               </div>
                     
@@ -848,140 +895,248 @@ export default function ChatBotAi(){
         {showReportPage && (
         isLoading ? (
           // Render the loading icon if report not generated yet
-          <>
-            <div style={{textAlign: 'center',justifyContent: 'center',alignContent: 'center',width: '100%',height: 600,marginTop: 60}}>
-              <div style={{marginTop: '100px',marginBottom: '100px'}}><TypingEffect/></div>
-              <Lottie animationData={animationData}  loop={true}/>
-            </div>
-            </>
+          <div style={{textAlign: 'center',justifyContent: 'center',alignContent: 'center',width: '100%',height: 600,marginTop: 60}}>
+            <div style={{marginTop: '10px',height: 150,display: 'flex',textAlign: 'center',justifyContent: 'center',alignContent: 'center',marginBottom: 0,padding: 0}}>
+                <Lottie animationData={animationData4}  loop={true}/>
+              </div>
+              <div className='ReportLoadingMaincontainer'>
+                {resOverview==='' ? (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Business Overview 
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <Lottie animationData={animationData}  loop={true}/>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Business Overview 
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <IoMdDoneAll size={33} color='#62bae3' style={{marginLeft: 50}}/>
+                    </div>
+                  </div>
+                )}
+
+                {marketBenefits ==='' ? (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Marketing Analysis 
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <Lottie animationData={animationData}  loop={true}/>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Marketing Analysis 
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <IoMdDoneAll size={33} color='#62bae3'/>
+                    </div>
+                  </div>
+                )}
+
+                {marketingMethods==='' ? (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Marketing Strategy
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <Lottie animationData={animationData}  loop={true}/>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Marketing Strategy
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <IoMdDoneAll size={33} color='#62bae3'/>
+                    </div>
+                  </div>
+                )}
+
+                {valueMisalignment==='' ? (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Value Misalignment
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <Lottie animationData={animationData}  loop={true}/>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Value Misalignment
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <IoMdDoneAll size={33} color='#62bae3'/>
+                    </div>                 
+                  </div>
+                )}
+
+                {productFit==='' ? (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                      Launch & Scale Report
+                    </div>
+                    <div style={{width: '20%'}}>
+                      <Lottie animationData={animationData}  loop={true}/>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='ReportLoadingcontainer'>
+                    <div style={{width: '40%',paddingLeft: 0,marginLeft: 0,textAlign: 'left'}}>
+                    Launch & Scale Report
+                    </div>                  
+                    <div style={{width: '20%'}}>
+                      <IoMdDoneAll size={33} color='#62bae3'/>
+                    </div>                  
+                  </div>
+                )}
+              </div>
+              
+              <div style={{marginRight: '20%',marginLeft: '20%',marginBottom: '50px',display: 'flex'}}>
+                <div style={{width: '80%',marginTop: 15}}>
+                  <ProgressBar percentage={calculatePercentage()} />
+                </div>
+                <div className='l333' style={{width: '20%'}}>
+                  {calculatePercentage().toFixed(0)}%
+                </div>
+                
+              </div>
+              
+          </div>
         ) : (
         <div style={{marginTop: 60}}>
           <button type="button" className='btn' style={{right: 10,top: 80,position: 'absolute',padding: 20}} onClick={generatePDF}>Download PDF</button>
           <div id="sidebar" className="sidebar" style={{width: '25%'}}>
-          <a href="#business-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h2>Business Overview</h2></a>
-          <a href="#O-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Overview</h3></a>
-          <a href="#MA-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h2>Marketing Analysis</h2></a>
-          <a href="#MB-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Marketing Benefits</h3>   </a>
-          <a href="#MC-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Marketing Challenges</h3></a>
-          <a href="#MS-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h2>Marketing Strategies</h2></a>
-          <a href="#MM-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Marketing Methods</h3></a>
-          <a href="#PF-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Product Fit</h3></a>
-          <a href="#EC-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h2>Evaluation & Conclusion</h2></a>
-          <a href="#VM-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Value Misalignment</h3> </a>
-          <a href="#Fail-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Failure Section</h3> </a>
-          <a href="#Final-overview" style={{textDecoration: 'none',color: '#555',}}>
-            <h3>Final Section</h3> </a>
+            <a href="#business-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h2>Business Overview</h2></a>
+            <a href="#O-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Overview</h3></a>
+            <a href="#MA-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h2>Marketing Analysis</h2></a>
+            <a href="#MB-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Marketing Benefits</h3>   </a>
+            <a href="#MC-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Marketing Challenges</h3></a>
+            <a href="#MS-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h2>Marketing Strategies</h2></a>
+            <a href="#MM-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Marketing Methods</h3></a>
+            <a href="#PF-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Product Fit</h3></a>
+            <a href="#EC-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h2>Evaluation & Conclusion</h2></a>
+            <a href="#VM-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Value Misalignment</h3> </a>
+            <a href="#Fail-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Failure Section</h3> </a>
+            <a href="#Final-overview" style={{textDecoration: 'none',color: '#555',}}>
+              <h3>Final Section</h3> </a>
           </div>
           <div style={{marginLeft: '20%',width: 'auto',marginRight: '15%'}}>
-          <div className= 'reportGenerated' style={{marginLeft: '10%', marginRight: '10%', overflow: 'auto',whiteSpace: 'pre-wrap' }}>
-            {/* <div className="pdfHeader">
-              <img src={logoimage} width='250px' alt='Pre Launch Pilot Logo' className='logo'/>
-            </div> */}
-          
-            <h1 id='business-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>
-              Business Overview
-            </h1>
+            <div className= 'reportGenerated' style={{marginLeft: '10%', marginRight: '10%', overflow: 'auto',whiteSpace: 'pre-wrap' }}>
+            
+              <h1 id='business-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>
+                Business Overview
+              </h1>
 
-            <div className='reportBodyText'>
-              {resIntro}
-            </div>
-
-            <h2 id='O-overview' className='reportHeader'>
-              Overview
-              <button id="toggleOverview" type="button"  style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('overviewContent','toggleOverview')}>&#x25BC;</button>
-            </h2> 
-            <div id="overviewContent" className='reportBodyText'>
-              {resOverview}
-            </div>
-
-            <div className="newPage">
-              <h1 id='MA-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Analysis</h1>
-
-              <h2 id='MB-overview' className='reportHeader'>
-                Market Benefits
-                <button id="toggleMB" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MBContent','toggleMB')}>&#x25BC;</button>
-              </h2> 
-              <div id ='MBContent' className='reportBodyText'>
-                {marketBenefits}
+              <div className='reportBodyText'>
+                {resIntro}
               </div>
-              {marketChallenges!=='notapp' && (
-                <>
-                  <h2 id='MC-overview' className='reportHeader'>
-                    Marketing Challenges
-                    <button id="toggleMC" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MCContent','toggleMC')}>&#x25BC;</button>
-                  </h2> 
-                  <div id='MCContent' className='reportBodyText'>
-                      {marketChallenges}
-                  </div>
-                </>
-              )}
-            </div>
 
-            <div className="newPage">
-              <h1 id='MS-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Strategies</h1>
-
-              <h2 id='MM-overview' className='reportHeader'>
-                Marketing Methods
-                <button id="toggleMM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MMContent','toggleMM')}>&#x25BC;</button>
+              <h2 id='O-overview' className='reportHeader'>
+                Overview
+                <button id="toggleOverview" type="button"  style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('overviewContent','toggleOverview')}>&#x25BC;</button>
               </h2> 
-              <div id='MMContent' className='reportBodyText'>
-                  {marketingMethods}
+              <div id="overviewContent" className='reportBodyText'>
+                {resOverview}
               </div>
-              
-              <h2 id='PF-overview' className='reportHeader'>
-                Product Fit
-                <button id="togglePF" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('PFContent','togglePF')}>&#x25BC;</button>
-              </h2> 
-              <div id='PFContent' className='reportBodyText'>
-                  {productFit}
-              </div>
-            </div>
 
-            <div className="newPage">
-              <h1 id='EC-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Evaluation & Conclusion</h1>
+              <div className="newPage">
+                <h1 id='MA-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Analysis</h1>
 
-              {valueMisalignment!='notapp' && (
-                <>
-                  <h2 id='VM-overview' className='reportHeader'>
-                    Value Misalignment
-                    <button id="toggleVM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('VMContent','toggleVM')}>&#x25BC;</button>
-                  </h2> 
-                  <div id='VMContent' className='reportBodyText'>
-                      {valueMisalignment}
-                  </div>
-                </>
+                <h2 id='MB-overview' className='reportHeader'>
+                  Market Benefits
+                  <button id="toggleMB" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MBContent','toggleMB')}>&#x25BC;</button>
+                </h2> 
+                <div id ='MBContent' className='reportBodyText'>
+                  {marketBenefits}
+                </div>
+                {marketChallenges!=='notapp' && (
+                  <>
+                    <h2 id='MC-overview' className='reportHeader'>
+                      Marketing Challenges
+                      <button id="toggleMC" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MCContent','toggleMC')}>&#x25BC;</button>
+                    </h2> 
+                    <div id='MCContent' className='reportBodyText'>
+                        {marketChallenges}
+                    </div>
+                  </>
                 )}
-              <h2 id='Fail-overview' className='reportHeader'>
-                Failure Section
-                <button id="toggleFail" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FailContent','toggleFail')}>&#x25BC;</button>
-              </h2> 
+              </div>
 
-              <div id='FailContent' className='reportBodyText'>
-                  {failureSection}
+              <div className="newPage">
+                <h1 id='MS-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Marketing Strategies</h1>
+
+                <h2 id='MM-overview' className='reportHeader'>
+                  Marketing Methods
+                  <button id="toggleMM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('MMContent','toggleMM')}>&#x25BC;</button>
+                </h2> 
+                <div id='MMContent' className='reportBodyText'>
+                    {marketingMethods}
+                </div>
+                
+                <h2 id='PF-overview' className='reportHeader'>
+                  Product Fit
+                  <button id="togglePF" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('PFContent','togglePF')}>&#x25BC;</button>
+                </h2> 
+                <div id='PFContent' className='reportBodyText'>
+                    {productFit}
+                </div>
+              </div>
+
+              <div className="newPage">
+                <h1 id='EC-overview' style={{fontSize: 32,fontWeight: 600,fontFamily: 'sans-serif',background: 'linear-gradient(to right, whitesmoke, white',color: '#555',lineHeight: 1.5,letterSpacing: 1.5,width: '70%'}}>Evaluation & Conclusion</h1>
+
+                {valueMisalignment!='notapp' && (
+                  <>
+                    <h2 id='VM-overview' className='reportHeader'>
+                      Value Misalignment
+                      <button id="toggleVM" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('VMContent','toggleVM')}>&#x25BC;</button>
+                    </h2> 
+                    <div id='VMContent' className='reportBodyText'>
+                        {valueMisalignment}
+                    </div>
+                  </>
+                  )}
+                <h2 id='Fail-overview' className='reportHeader'>
+                  Failure Section
+                  <button id="toggleFail" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FailContent','toggleFail')}>&#x25BC;</button>
+                </h2> 
+
+                <div id='FailContent' className='reportBodyText'>
+                    {failureSection}
+                </div>
+              </div>
+
+              <div className="newPage">
+                <h2 id='Final-overview' className='reportHeader'>
+                  Final Section
+                  <button id="toggleFinal" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FinalContent','toggleFinal')}>&#x25BC;</button>
+                </h2> 
+                <div id='FinalContent' className='reportBodyText'>
+                    {finalSection}
+                </div>
               </div>
             </div>
-
-            <div className="newPage">
-              <h2 id='Final-overview' className='reportHeader'>
-                Final Section
-                <button id="toggleFinal" type="button" style={{marginLeft: 10,padding: 0,background: 'white',borderWidth: 0}} onClick={() => toggleOverview('FinalContent','toggleFinal')}>&#x25BC;</button>
-              </h2> 
-              <div id='FinalContent' className='reportBodyText'>
-                  {finalSection}
-              </div>
-            </div>
-          </div>
           </div>
         </div>
         

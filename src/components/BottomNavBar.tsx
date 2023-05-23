@@ -5,11 +5,11 @@ function BottomNav() {
   return (
     <>
         <div className='botNavMainContainer'>
-            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'flex-start', flexWrap: 'wrap' }}>
+            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'space-around', flexWrap: 'wrap' }}>
                 <img src="/src/assets/images/logo_bottomnav_transparent_background.png" style={{ width: '70%' }} alt="logo" />
             </div>
 
-            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'flex-start', flexWrap: 'wrap' }}>
+            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'space-around', flexWrap: 'wrap' }}>
                 <ul className='bottomNavul'>
                 <li>
                     <Link to='/' style={{ color: '#555', textDecoration: 'none' }}>Features</Link>
@@ -26,7 +26,7 @@ function BottomNav() {
                 </ul>
             </div>
 
-            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'flex-start', flexWrap: 'wrap' }}>
+            <div style={{ padding: 10, display: 'flex', width: '33.333%', alignContent: 'space-around', flexWrap: 'wrap' }}>
                 <ul className='bottomNavul'>
                     <li>For Frequently Asked Questions Visit our Support Forum</li>
                     <li>For Direct Support:</li>

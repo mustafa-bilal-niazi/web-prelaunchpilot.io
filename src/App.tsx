@@ -9,7 +9,6 @@ import More from "./pages/More";
 import TryFree from "./pages/TryFree";
 import Login from "./pages/Login";
 import ChatBotAi from "./pages/ChatBotAi";
-import ReportPage from "./pages/ReportPage";
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
