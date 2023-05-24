@@ -1,7 +1,7 @@
 export const question3examples = [
   "Product examples: Shoes, Keychains, Widgets,",
-  "Service examples: Shoe Cleaning Service, Custom Keychain Making Service, Widget Marketing Service",
-  "Subscription example: Monthly subscription of widgets, software as a service, a combination of products and services",
+  "Service examples: Shoe Cleaning Service, Custom Keychains, Widget Marketing etc.",
+  "Subscription example: Monthly subscription of widgets, Software as a service, A combination of products and services",
 ];
 
 export const question4a = [

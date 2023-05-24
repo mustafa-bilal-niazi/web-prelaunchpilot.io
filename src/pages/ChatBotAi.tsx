@@ -9,7 +9,6 @@ import chatbothero from '../assets/lottie/chatbothero.json';
 import Lottie from 'lottie-react';
 import { BsArrowRightCircleFill } from 'react-icons/bs';
 import { IoMdDoneAll } from 'react-icons/io';
-
 import html2pdf from 'html2pdf.js';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
@@ -32,26 +31,38 @@ export default function ChatBotAi(){
   
     html2pdf().set(opt).from(element).save();
   };
+
+  type TypingEffectProps = {
+    question: string;
+  };
   
-  
-  function TypingEffect() {
+  const TypingEffect = React.memo(({ question }: TypingEffectProps) => {
     useEffect(() => {
-      const typed = new Typed('.l33', {
-        strings: ["Analysing Your Business Potential...","Exploring Business Market...", "Searching For Possible Challenges...", "Divising Market Strategy...", "Setting Up Marketing Approaches...", "Researching Lauch and Scaling...",],
-        typeSpeed: 40,
+      const typed = new Typed('.typing-effect', {
+        strings: [question],
+        typeSpeed: 50,
         backSpeed: 60,
-        loop: true,
+        loop: false,
         showCursor: false,
       });
       return () => {
-        typed.destroy();
+        typed.stop();
       };
-    }, []);
+    }, [question]);
   
     return (
-      <div className='l33'></div>
-    );
-  }
+      <div
+        className="typing-effect"
+        style={{
+          fontSize: 18,
+          fontWeight: 500,
+          fontFamily: 'Montserrat, Sans-serif',
+          padding: '4%',
+          textAlign: 'justify',
+        }}
+      ></div>
+      );
+    });
 
     const [showReportPage, setShowReportPage] = useState(false); //change to false after testing
     const [userCompany,setuserCompany] = useState('ALGORYC')
@@ -81,66 +92,63 @@ export default function ChatBotAi(){
     const [marketingMethods,setMarketingMethods]=useState('');
     const [failureSection,setFailureSection]=useState('');
     const [finalSection,setFinalSection]=useState('');
-    const [buttonState,setButtonState]=useState('Next')
-    
-    const [selectedItem,setSelectedItem]=useState(false)
-    
-    // useEffect(() => {
-    //   const returnIfSelected = () => {
-    //     let x;
-      
-    //     switch (questionState) {
-    //       case 1:
-    //         x = answer1;
-    //         break;
-    //       case 2:
-    //         x = answer2;
-    //         break;
-    //       case 3:
-    //         x = answer3;
-    //         break;
-    //       case 4:
-    //         x = answer4;
-    //         break;
-    //       case 5:
-    //         x = answer5;
-    //         break;
-    //       case 6:
-    //         x = answer6;
-    //         break;
-    //       case 7:
-    //         x = answer7;
-    //         break;
-    //       case 8:
-    //         x = answer8;
-    //         break;
-    //       case 9:
-    //         x = answer9;
-    //         break;
-    //       case 10:
-    //         x = answer10;
-    //         break;
-    //       case 11:
-    //         x = answer11;
-    //         break;
-    //       case 12:
-    //         x = answer12;
-    //         break;
-    //       case 13:
-    //         x = answer13;
-    //         break;
-    //       case 14:
-    //         x = answer14;
-    //         break;
-    //       default:
-    //         x = '';
-    //     }
-    //     setSelectedItem(x !== '');      
-    //   };
-    //   returnIfSelected()
-    // }, [answer1,answer2,answer3,answer4,answer5,answer6,answer7,answer8,answer9,answer10,answer11,answer12,answer13,answer14]);
+        
+    useEffect(() => {
+      const handleScroll = () => {
+        const sidebar = document.getElementById("sidebar");
+        const scrollPosition = window.pageYOffset;
+        const windowHeight = window.innerHeight;
 
-// const checkIfSelected
+       if (scrollPosition + windowHeight >= document.body.clientHeight - 400 && sidebar) {
+         sidebar.style.left = "-400px"; // Adjust this value according to the width of your sidebar
+       } else if (sidebar) {
+         sidebar.style.left = "0px";
+       }
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+
+    function isCurrentAnswerEmpty() {
+      switch (questionState) {
+        case 0:
+          return !(userEmail && userName && userCompany);
+        case 1:
+          return !answer1;
+        case 2:
+          return !answer2;
+        case 3:
+          return !answer3;
+        case 4:
+          return !answer4;
+        case 5:
+          return !answer5;
+        case 6:
+          return !answer6;
+        case 7:
+          return !answer7;
+        case 8:
+          return !answer8;
+        case 9:
+          return !answer9;
+        case 10:
+          return !answer10;
+        case 11:
+          return !answer11;
+        case 12:
+          return !answer12;
+        case 13:
+          return !answer13;
+        case 14:
+          return !answer14;
+          default:
+        return true;
+      }
+    }
 
 //------------------------------------------------------------API Functions---------------------------------------------------------------
 
@@ -355,7 +363,6 @@ export default function ChatBotAi(){
             setQuestionState(questionState + 1);
           },
           13: () => {
-            setButtonState('Generate report');
             if (answer9 === 'No' && answer12 === 'No') {
               getValueMisalignment();
             }
@@ -399,6 +406,9 @@ export default function ChatBotAi(){
     
     function backClick() {
       switch (questionState) {
+        // case 1:
+        //   setSelectedItem(true)
+        //   break;
         case 3:
           setAnswer3('');
           setQuestionState(questionState - 1);
@@ -425,7 +435,6 @@ export default function ChatBotAi(){
           setQuestionStateBasedOnAnswer(answer9);
           break;
         case 14:
-          setButtonState('Next');
           setQuestionStateBasedOnAnswer(answer12);
           break;
         default:
@@ -448,7 +457,6 @@ export default function ChatBotAi(){
         arrow.innerHTML = '&#x25B6;';
       }
     }
-    
 
     const calculatePercentage = () => {
       const items = [resIntro,resOverview,marketBenefits,finalSection,failureSection,productFit,valueMisalignment,marketChallenges,marketingMethods];
@@ -481,8 +489,9 @@ export default function ChatBotAi(){
       console.log('Q8: '+answer12);
       console.log('Q8a '+answer13);
       console.log('Q8b '+answer14);
+      console.log('QuestionState '+questionState);
 
-    }, [answer1,answer2,answer3,answer4,answer5,answer6,answer7,answer8,answer9,answer10,answer11,answer12,answer13,answer14,resIntro,resOverview,marketBenefits,finalSection,failureSection,productFit,valueMisalignment,marketChallenges,marketingMethods]); // log the value of all answers every time any changes
+    }, [questionState,answer1,answer2,answer3,answer4,answer5,answer6,answer7,answer8,answer9,answer10,answer11,answer12,answer13,answer14,resIntro,resOverview,marketBenefits,finalSection,failureSection,productFit,valueMisalignment,marketChallenges,marketingMethods]); // log the value of all answers every time any changes
     
     const [isLoading, setIsLoading] = useState(true);
 
@@ -493,7 +502,7 @@ export default function ChatBotAi(){
       if(answer2==='Yes'){
         setMarketChallenges('notapp')
       }
-      if(resIntro && resOverview && finalSection && failureSection && marketBenefits && valueMisalignment && marketingMethods && marketChallenges) {
+      if(resIntro && resOverview && finalSection && failureSection && marketBenefits && valueMisalignment && marketingMethods && marketChallenges && productFit) {
         setIsLoading(false);
       }
     }, [resIntro, resOverview,finalSection,failureSection,marketBenefits,marketChallenges,marketingMethods,productFit,valueMisalignment]);
@@ -546,7 +555,7 @@ export default function ChatBotAi(){
           <div className="chatinput-maincontainer">
 
             <div className="chatinput-container">
-              <div style={{fontSize: 18,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',padding: '4%',textAlign: 'justify'}}>{questionSet[questionState]}</div>
+              <TypingEffect question={questionSet[questionState]}/>
               {questionState===0 && ( 
               <>
                 <p style={{fontSize: 13,fontWeight: 500,fontFamily: 'Montserrat,Sans-serif',marginLeft: '20%',marginBottom: 0,padding: 0,textAlign: 'left'}}>User name</p>
@@ -874,12 +883,12 @@ export default function ChatBotAi(){
                 }
                 {questionState<14 &&                       
                 <button type="button" className='chatinputbtn'  onClick={nextClick} 
-                // disabled={!selectedItem}
+                disabled={isCurrentAnswerEmpty()}
                 >Next</button>
                 }
                 {questionState==14 &&                     
                 <button type="button" className='chatinputbtn' onClick={showReport} 
-                // disabled={!selectedItem}
+                disabled={isCurrentAnswerEmpty()}
                 >Generate Report</button>
                 } 
               </div>
@@ -915,7 +924,7 @@ export default function ChatBotAi(){
                       Business Overview 
                     </div>
                     <div style={{width: '20%'}}>
-                      <IoMdDoneAll size={33} color='#62bae3' style={{marginLeft: 50}}/>
+                      <IoMdDoneAll size={33} color='#62bae3'/>
                     </div>
                   </div>
                 )}
